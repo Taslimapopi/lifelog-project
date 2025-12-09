@@ -11,16 +11,24 @@ import PrivateRoute from "./Privateraroutes";
 import MyLessons from "../pages/Dashboard/MyLessons";
 import LessonDetails from "../pages/LessionDetails/LessonDetails";
 import UpdateLessonForm from "../pages/UpdateLesson/UpdateLesson";
+import PublicLessons from "../pages/HomeLayouts/PublicLessons";
+import LoadingSpinner from "../pages/LoadingSpinner";
 
 
 export const router = createBrowserRouter([
     {
         path:'/',
         element: <HomeLayout></HomeLayout>,
+        hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
         children:[
             {
                 index:true,
                 Component:Home,
+            },
+            {
+                path: '/public-lessons',
+                element:<PublicLessons></PublicLessons>
+
             },
             {
                 path:'/add-lessons',

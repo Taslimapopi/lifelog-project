@@ -5,6 +5,7 @@ import useAxios from "../../hooks/useAxious";
 import { useMutation } from "@tanstack/react-query";
 import ErrorPage from "../../pages/ErrorPage";
 import { TbFidgetSpinner } from "react-icons/tb";
+import LoadingSpinner from "../../pages/LoadingSpinner";
 
 const AddLessonForm = () => {
   const { user } = useAuth();
@@ -49,15 +50,7 @@ const AddLessonForm = () => {
     const { title, category, emotionalTone, privacy, description, image,accessLevel } =
       data;
     const imageFile = image[0];
-    // const imageUrl =await imageUpload(imageFile);
-    // const lessonData = { image: imageUrl,title, category, emotionalTone, privacy,description,
-    //   author:{
-    //     name: user?.displayName,
-    //     email: user?.email,
-    //     image: user?.photoURL
-    //   }
-
-    // }
+   
     try {
       const imageUrl = await imageUpload(imageFile);
       const lessonData = {
@@ -89,7 +82,7 @@ const AddLessonForm = () => {
     //     alert('lesson created')
     //   })
   };
-  if (isPending) return <p>loading...</p>
+  if (isPending) return <LoadingSpinner></LoadingSpinner>
   if (isError) return <ErrorPage />
 
   return (

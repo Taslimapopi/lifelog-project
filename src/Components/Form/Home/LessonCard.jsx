@@ -21,8 +21,8 @@ const LessonCard = ({ lesson, }) => {
   const isUserPremium = user?.membership === "premium";
 
   const shortDescription =
-    description?.length > 80
-      ? description.substring(0, 80) + "..."
+    description?.length > 50
+      ? description.substring(0, 50) + "..."
       : description;
 
   return (

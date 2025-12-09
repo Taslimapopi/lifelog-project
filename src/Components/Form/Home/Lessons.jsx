@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
 import LessonCard from './LessonCard';
+import LoadingSpinner from '../../../pages/LoadingSpinner';
 
 const Lessons = () => {
     const { data: lessons = [], isLoading } = useQuery({
@@ -12,7 +13,7 @@ const Lessons = () => {
     },
   })
 
-  if (isLoading) return <p>loading...</p>
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>
     return (
         <div>
             {lessons && lessons.length > 0 ? (
