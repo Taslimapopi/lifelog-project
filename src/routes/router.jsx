@@ -10,6 +10,7 @@ import ErrorPage from "../pages/ErrorPage";
 import PrivateRoute from "./Privateraroutes";
 import MyLessons from "../pages/Dashboard/MyLessons";
 import LessonDetails from "../pages/LessionDetails/LessonDetails";
+import UpdateLessonForm from "../pages/UpdateLesson/UpdateLesson";
 
 
 export const router = createBrowserRouter([
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
             {
                 path:'/dashboard/my-lessons',
                 element: <MyLessons></MyLessons>
+            },
+            {
+                path: '/dashboard/update-lesson/:id',
+                element: <UpdateLessonForm></UpdateLessonForm>
             }
         ]
 

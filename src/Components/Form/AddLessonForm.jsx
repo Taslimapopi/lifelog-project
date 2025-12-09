@@ -46,7 +46,7 @@ const AddLessonForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { title, category, emotionalTone, privacy, description, image } =
+    const { title, category, emotionalTone, privacy, description, image,accessLevel } =
       data;
     const imageFile = image[0];
     // const imageUrl =await imageUpload(imageFile);
@@ -66,6 +66,7 @@ const AddLessonForm = () => {
         category,
         emotionalTone,
         privacy,
+        accessLevel,
         description,
         author: {
           name: user?.displayName,
@@ -170,6 +171,26 @@ const AddLessonForm = () => {
               {errors.privacy && (
                 <p className="text-xs text-red-500 mt-1">
                   {errors.privacy.message}
+                </p>
+              )}
+            </div>
+            {/* Access Level */}
+            <div className="space-y-1 text-sm">
+              <label htmlFor="category" className="block text-gray-600 ">
+                Access Level
+              </label>
+              <select
+                required
+                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                name="accessLevel"
+                {...register("accessLevel", { required: "Access Level is required" })}
+              >
+                <option value="free">Free</option>
+                <option value="premium">Premium</option>
+              </select>
+              {errors.accessLevel && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.accessLevel.message}
                 </p>
               )}
             </div>

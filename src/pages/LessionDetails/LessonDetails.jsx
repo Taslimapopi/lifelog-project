@@ -1,122 +1,28 @@
-// import { useQuery } from "@tanstack/react-query";
-// import axios from "axios";
-// import React, { useState } from "react";
-// import { useParams } from "react-router";
-// import Heading from "../../Components/shared/Heading";
-// import Button from "../../Components/shared/Button";
-
-// const LessonDetails = () => {
-//   let [isOpen, setIsOpen] = useState(false);
-//   const {id} = useParams();
-//   console.log(id)
-
-//    const { data: lesson = {}, isLoading } = useQuery({
-//     queryKey: ['lesson', id],
-//     queryFn: async () => {
-//       const result = await axios(`${import.meta.env.VITE_API_URL}/lessons/${id}`)
-//       return result.data
-//     },
-//   })
-
-//   const closeModal = () => {
-//     setIsOpen(false);
-//   };
-
-//   const { image, title, description, category,  author } = lesson
-
-//   return (
-//     <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-12">
-//       {/* Header */}
-//       <div className="flex flex-col gap-6 flex-1">
-//         <div>
-//           <div className="w-full overflow-hidden rounded-xl">
-//             <img
-//               className="object-cover w-full"
-//               src={image}
-//               alt="header image"
-//             />
-//           </div>
-//         </div>
-//       </div>
-//       <div className="md:gap-10 flex-1">
-//         {/* Plant Info */}
-//         {/* <Heading title={title} subtitle={`Category: ${category}`} /> */}
-//         <h2>title={title}</h2>
-//         <hr className="my-6" />
-//         <div
-//           className="
-//           text-lg font-light text-neutral-500"
-//         >
-//          {description}
-//         </div>
-//         <hr className="my-6" />
-
-//         <div
-//           className="
-//                 text-xl 
-//                 font-semibold 
-//                 flex 
-//                 flex-row 
-//                 items-center
-//                 gap-2
-//               "
-//         >
-//           {/* <div>{author.name}</div> */}
-
-//           <img
-//             className="rounded-full"
-//             height="30"
-//             width="30"
-//             alt="Avatar"
-//             referrerPolicy="no-referrer"
-//             // src={author[image]}
-//           />
-//         </div>
-//         <hr className="my-6" />
-//         {/* <div>
-//           <p
-//             className="
-//                 gap-4 
-//                 font-light
-//                 text-neutral-500
-//               "
-//           >
-//             Quantity: 10 Units Left Only!
-//           </p>
-//         </div> */}
-//         <hr className="my-6" />
-//         <div className="flex justify-between">
-//           <p className="font-bold text-3xl text-gray-500">Price: 10$</p>
-//           <div>
-//             {/* <Button onClick={() => setIsOpen(true)} label="Purchase" /> */}
-//           </div>
-//         </div>
-//         <hr className="my-6" />
-
-//         {/* <PurchaseModal closeModal={closeModal} isOpen={isOpen} /> */}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LessonDetails;
-
-
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router";
-import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaFlag, FaLock } from "react-icons/fa";
+import {
+  FaHeart,
+  FaRegHeart,
+  FaBookmark,
+  FaRegBookmark,
+  FaFlag,
+  FaLock,
+} from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
 
-
-const LessonDetails = ({ user }) => {
+const LessonDetails = () => {
+  const { user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { data: lesson = {}, isLoading, refetch } = useQuery({
     queryKey: ["lesson", id],
     queryFn: async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/lessons/${id}`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/lessons/${id}`
+      );
       return res.data;
     },
   });
@@ -138,6 +44,7 @@ const LessonDetails = ({ user }) => {
   const isPremiumLesson = accessLevel === "premium";
   const isUserPremium = user?.membership === "premium";
 
+  // If premium content blocked
   if (isPremiumLesson && !isUserPremium) {
     return (
       <div className="relative text-center py-20 px-6">
@@ -162,9 +69,12 @@ const LessonDetails = ({ user }) => {
   const toggleLike = async () => {
     if (!user) return alert("Please log in to like this lesson.");
 
-    await axios.patch(`${import.meta.env.VITE_API_URL}/lessons/${id}/toggleLike`, {
-      userId: user._id,
-    });
+    await axios.patch(
+      `${import.meta.env.VITE_API_URL}/lessons/${id}/toggleLike`,
+      {
+        userId: user._id,
+      }
+    );
 
     refetch();
   };
@@ -173,16 +83,24 @@ const LessonDetails = ({ user }) => {
   const toggleFavorite = async () => {
     if (!user) return alert("Please log in to save favorites.");
 
-    await axios.patch(`${import.meta.env.VITE_API_URL}/lessons/${id}/toggleFavorite`, {
-      userId: user._id,
-    });
+    await axios.patch(
+      `${import.meta.env.VITE_API_URL}/lessons/${id}/toggleFavorite`,
+      {
+        userId: user._id,
+      }
+    );
 
     refetch();
   };
 
+  // Safe check
+  const isLiked = likes?.some((uid) => String(uid) === String(user?._id));
+  const isFavorited = favorites?.some(
+    (uid) => String(uid) === String(user?._id)
+  );
+
   return (
     <div className="max-w-5xl mx-auto py-10 px-6">
-
       {/* Featured Image */}
       <img
         src={image}
@@ -243,21 +161,20 @@ const LessonDetails = ({ user }) => {
 
       <hr className="my-6" />
 
-      {/* Buttons */}
+      {/* Action Buttons */}
       <div className="flex gap-4">
         <button
           onClick={toggleLike}
           className="px-5 py-2 bg-red-500 text-white rounded-lg flex items-center gap-2"
         >
-          {likes.includes(user?._id) ? <FaHeart /> : <FaRegHeart />} Like
+          {isLiked ? <FaHeart /> : <FaRegHeart />} Like
         </button>
 
         <button
           onClick={toggleFavorite}
           className="px-5 py-2 bg-yellow-500 text-white rounded-lg flex items-center gap-2"
         >
-          {favorites.includes(user?._id) ? <FaBookmark /> : <FaRegBookmark />}
-          Favorite
+          {isFavorited ? <FaBookmark /> : <FaRegBookmark />} Favorite
         </button>
 
         <button className="px-5 py-2 bg-gray-700 text-white rounded-lg flex items-center gap-2">
@@ -267,7 +184,7 @@ const LessonDetails = ({ user }) => {
 
       <hr className="my-6" />
 
-      {/* Comments Section */}
+      {/* Comments */}
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-2">Comments</h2>
 
@@ -280,7 +197,6 @@ const LessonDetails = ({ user }) => {
           Post Comment
         </button>
 
-        {/* Existing Comments List */}
         <div className="mt-6">
           <p className="text-gray-500 italic">Comments will appear here...</p>
         </div>
@@ -288,16 +204,13 @@ const LessonDetails = ({ user }) => {
 
       <hr className="my-10" />
 
-      {/* Recommended Lessons Placeholder */}
+      {/* Recommended Lessons */}
       <h2 className="text-2xl font-bold mb-4">Recommended Lessons</h2>
       <p className="text-gray-500">
         You can show 6 recommended lessons here (based on category/tone)
       </p>
-
     </div>
   );
 };
 
 export default LessonDetails;
-
-

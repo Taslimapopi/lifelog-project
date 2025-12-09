@@ -8,7 +8,7 @@ const DashboardLayout = () => {
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Navbar */}
-        <nav className="navbar w-full bg-base-300">
+        <nav className="navbar w-full bg-secondary Text-white">
           <label
             htmlFor="my-drawer-4"
             aria-label="open sidebar"
@@ -30,7 +30,7 @@ const DashboardLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4">Life-Log Dashboard</div>
+          <div className="px-4 text-white">Life-Log Dashboard</div>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
@@ -45,7 +45,7 @@ const DashboardLayout = () => {
         ></label>
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
-          <ul className="menu w-full grow">
+          <ul className="menu w-full grow bg-primary">
             {/* List item */}
             <li>
               <Link
