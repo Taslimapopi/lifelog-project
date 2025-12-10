@@ -13,6 +13,7 @@ import LessonDetails from "../pages/LessionDetails/LessonDetails";
 import UpdateLessonForm from "../pages/UpdateLesson/UpdateLesson";
 import PublicLessons from "../pages/HomeLayouts/PublicLessons";
 import LoadingSpinner from "../pages/LoadingSpinner";
+import PublicLesson from "../pages/HomeLayouts/PublicLesson";
 
 
 export const router = createBrowserRouter([
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/public-lessons',
-                element:<PublicLessons></PublicLessons>
+                element:<PublicLesson></PublicLesson>
 
             },
             {
