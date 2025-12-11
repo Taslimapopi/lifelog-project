@@ -1,28 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router";
 import useAuth from "../hooks/useAuth";
-import logo from '../assets/logo-lifelog.png'
+import logo from "../assets/logo-lifelog.png";
+import useAxios from "../hooks/useAxious";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const axiosInstance = useAxios();
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    axiosInstance.get(`/users/email/${user?.email}`).then((res) => {
+      setCurrentUser(res.data);
+    });
+  }, [axiosInstance, user]);
+
   const links = (
     <>
       <li>
-        <NavLink to="/" className=' text-white'>Home</NavLink>
+        <NavLink to="/" className=" text-white">
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/public-lessons" className=' text-white'>Public Lessons</NavLink>
+        <NavLink to="/public-lessons" className=" text-white">
+          Public Lessons
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/add-lessons" className=' text-white'>Add Lessons</NavLink>
+        <NavLink to="/add-lessons" className=" text-white">
+          Add Lessons
+        </NavLink>
       </li>
-      {
-        user && <>
-        <li>
-        <NavLink to="/dashboard/my-lessons" className=' text-white'>My Lessons</NavLink>
-      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/dashboard/my-lessons" className="text-white">
+              My Lessons
+            </NavLink>
+          </li>
+
+          {/* If NOT premium → Show Upgrade */}
+          {!currentUser?.isUserPremium && (
+            <li>
+              <NavLink to="/pricing" className="text-white">
+                Upgrade
+              </NavLink>
+            </li>
+          )}
+
+          {/* If premium → Show Premium Badge */}
+          {currentUser?.isUserPremium && (
+            <li>
+              <span className="text-yellow-400 font-bold">Premium ⭐</span>
+            </li>
+          )}
         </>
-      }
+      )}
     </>
   );
   return (
@@ -68,10 +102,7 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src={user.photoURL}
-                />
+                <img alt="Tailwind CSS Navbar component" src={user.photoURL} />
               </div>
             </div>
             <ul
@@ -80,23 +111,25 @@ const Navbar = () => {
             >
               <li>{user.displayName}</li>
               <li>
-                <a className="justify-between">
-                  Profile
-                </a>
+                <a className="justify-between">Profile</a>
               </li>
               <li>
-                <Link to='/dashboard'>Dashboard</Link>
+                <Link to="/dashboard">Dashboard</Link>
               </li>
               <li>
-                <button onClick={()=>logOut()}>Logout</button>
+                <button onClick={() => logOut()}>Logout</button>
               </li>
             </ul>
           </div>
-        ) : (<div>
-          <Link to="/auth/register" className="btn btn-primary mr-3">Register</Link>
-          <Link to="/auth/login" className="btn btn-primary mr-3">Login</Link>
-        </div>
-          
+        ) : (
+          <div>
+            <Link to="/auth/register" className="btn btn-primary mr-3">
+              Register
+            </Link>
+            <Link to="/auth/login" className="btn btn-primary mr-3">
+              Login
+            </Link>
+          </div>
         )}
       </div>
     </div>

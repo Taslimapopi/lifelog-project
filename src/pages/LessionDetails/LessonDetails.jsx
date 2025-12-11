@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router";
 import {
   FaHeart,
@@ -11,13 +11,20 @@ import {
   FaLock,
 } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxious";
 
 const LessonDetails = () => {
   const { user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
+  const axiosInstance = useAxios();
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const { data: lesson = {}, isLoading, refetch } = useQuery({
+  const {
+    data: lesson = {},
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["lesson", id],
     queryFn: async () => {
       const res = await axios.get(
@@ -41,11 +48,19 @@ const LessonDetails = () => {
     favorites = [],
   } = lesson;
 
-  const isPremiumLesson = accessLevel === "premium";
-  const isUserPremium = user?.membership === "premium";
+  
+
+  useEffect(() => {
+    axiosInstance.get(`/users/email/${user?.email}`).then((res) => {
+      setCurrentUser(res.data);
+    });
+  }, [axiosInstance, user]);
+
+  const isPremium = accessLevel === "premium";
+  const isUserPremium = currentUser?.isUserPremium === true;
 
   // If premium content blocked
-  if (isPremiumLesson && !isUserPremium) {
+  if (isPremium && !isUserPremium) {
     return (
       <div className="relative text-center py-20 px-6">
         <div className="text-3xl font-bold text-red-600 flex justify-center gap-3">
@@ -123,9 +138,7 @@ const LessonDetails = () => {
       <hr className="my-6" />
 
       {/* Description */}
-      <div className="text-lg leading-relaxed text-gray-700">
-        {description}
-      </div>
+      <div className="text-lg leading-relaxed text-gray-700">{description}</div>
 
       <hr className="my-6" />
 

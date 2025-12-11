@@ -14,6 +14,9 @@ import UpdateLessonForm from "../pages/UpdateLesson/UpdateLesson";
 import PublicLessons from "../pages/HomeLayouts/PublicLessons";
 import LoadingSpinner from "../pages/LoadingSpinner";
 import PublicLesson from "../pages/HomeLayouts/PublicLesson";
+import Pricing from "../Components/Form/Home/Pricing";
+import Payment from "../Payment/Payment";
+import PaymentCancelled from "../Payment/PaymentCancelled";
 
 
 export const router = createBrowserRouter([
@@ -29,6 +32,20 @@ export const router = createBrowserRouter([
             {
                 path: '/public-lessons',
                 element:<PublicLesson></PublicLesson>
+
+            },
+            {
+                path:'/pricing',
+                element:<Pricing></Pricing>
+
+            },
+            {
+                path:'/payment',
+                element:<Payment></Payment>
+            },
+            {
+                path:'/payment-cancelled',
+                element:<PaymentCancelled></PaymentCancelled>
 
             },
             {

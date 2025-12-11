@@ -1,10 +1,21 @@
-
 import { FaLock } from "react-icons/fa";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import useAxios from "../../../hooks/useAxious";
 
-const LessonCard = ({ lesson, }) => {
-    const {user} = useAuth()
+const LessonCard = ({ lesson }) => {
+  const { user } = useAuth();
+  const axiosInstance = useAxios();
+  const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axiosInstance.get(`/users/email/${user?.email}`).then((res) => {
+      setCurrentUser(res.data);
+    });
+  }, [axiosInstance, user]);
+
   const {
     _id,
     title,
@@ -14,16 +25,24 @@ const LessonCard = ({ lesson, }) => {
     creator,
     accessLevel,
     createdAt,
-    image
+    image,
   } = lesson;
 
   const isPremium = accessLevel === "premium";
-  const isUserPremium = user?.membership === "premium";
+  const isUserPremium = currentUser?.isUserPremium === true;
 
   const shortDescription =
     description?.length > 50
       ? description.substring(0, 50) + "..."
       : description;
+
+  const handleClick = () => {
+    if (isPremium && !isUserPremium) {
+      navigate("/pricing"); // ❌ Not premium → send to pricing
+    } else {
+      navigate(`/lessons/${_id}`); // ✅ Premium user → show details
+    }
+  };
 
   return (
     <div
@@ -86,7 +105,7 @@ const LessonCard = ({ lesson, }) => {
         </p>
 
         {/* Details Button */}
-        {!isPremium || isUserPremium ? (
+        {/* {!isPremium || isUserPremium ? (
           <Link to={`/lessons/${_id}`}>
             <button className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
               See Details
@@ -99,7 +118,21 @@ const LessonCard = ({ lesson, }) => {
           >
             Premium Lesson – Upgrade to view
           </button>
-        )}
+        )} */}
+        <button
+          onClick={handleClick}
+          className={`w-full mt-4 py-2 rounded-lg text-white transition
+          ${
+            isPremium && !isUserPremium
+              ? "bg-red-500 hover:bg-red-600"
+              : "bg-blue-600 hover:bg-blue-700"
+          }
+        `}
+        >
+          {isPremium && !isUserPremium
+            ? "Premium Lesson – Upgrade to view"
+            : "See Details"}
+        </button>
       </div>
     </div>
   );

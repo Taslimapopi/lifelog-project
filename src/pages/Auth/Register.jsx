@@ -8,13 +8,14 @@ import axios from 'axios';
 import SocialLogin from './SocialLogin';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
+import useAxios from '../../hooks/useAxious';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { registerUser, updateUserProfile } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const axiosSecure = useAxiosSecure();
+    const axiosInstance = useAxios()
 
 
     const handleRegistration = (data) => {
@@ -41,7 +42,7 @@ const Register = () => {
                             displayName: data.name,
                             photoURL: photoURL
                         }
-                        axiosSecure.post('/users', userInfo)
+                        axiosInstance.post('/users', userInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
                                     console.log('user created in the database');
