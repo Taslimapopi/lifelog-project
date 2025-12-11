@@ -84,6 +84,17 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">My Lessons</span>
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="favorite Lessons"
+                to="/dashboard/fav-lessons"
+              >
+                {" "}
+                <MdOutlinePlayLesson />
+                <span className="is-drawer-close:hidden">My Lessons</span>
+              </NavLink>
+            </li>
 
             {/* List item */}
             <li>

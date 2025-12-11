@@ -87,7 +87,7 @@ const LessonDetails = () => {
     await axios.patch(
       `${import.meta.env.VITE_API_URL}/lessons/${id}/toggleLike`,
       {
-        userId: user._id,
+        userId: currentUser._id,
       }
     );
 
@@ -101,7 +101,7 @@ const LessonDetails = () => {
     await axios.patch(
       `${import.meta.env.VITE_API_URL}/lessons/${id}/toggleFavorite`,
       {
-        userId: user._id,
+        userId: currentUser._id,
       }
     );
 

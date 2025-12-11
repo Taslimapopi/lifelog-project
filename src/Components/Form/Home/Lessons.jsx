@@ -8,7 +8,7 @@ const Lessons = () => {
     const { data: lessons = [], isLoading } = useQuery({
     queryKey: ['lessons'],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/lessons`)
+      const result = await axios(`${import.meta.env.VITE_API_URL}/home-lessons`)
       return result.data
     },
   })

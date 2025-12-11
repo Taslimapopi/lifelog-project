@@ -111,7 +111,7 @@ const Navbar = () => {
             >
               <li>{user.displayName}</li>
               <li>
-                <a className="justify-between">Profile</a>
+                <Link to='/auth/profile' className="justify-between">Profile</Link>
               </li>
               <li>
                 <Link to="/dashboard">Dashboard</Link>

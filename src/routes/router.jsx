@@ -17,6 +17,8 @@ import PublicLesson from "../pages/HomeLayouts/PublicLesson";
 import Pricing from "../Components/Form/Home/Pricing";
 import Payment from "../Payment/Payment";
 import PaymentCancelled from "../Payment/PaymentCancelled";
+import MyFavorites from "../pages/Dashboard/FavriteLessons";
+import Profile from "../pages/Auth/Profile";
 
 
 export const router = createBrowserRouter([
@@ -55,7 +57,8 @@ export const router = createBrowserRouter([
             {
                 path:'/lessons/:id',
                 element: <LessonDetails></LessonDetails>
-            }
+            },
+            
         ]
     },
     {
@@ -69,6 +72,11 @@ export const router = createBrowserRouter([
             {
                 path:'/auth/register',
                 element: <Register></Register>
+            },
+            {
+                path:'/auth/profile',
+                element:<Profile></Profile>
+                
             }
         ]
     },
@@ -84,7 +92,12 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/update-lesson/:id',
                 element: <UpdateLessonForm></UpdateLessonForm>
-            }
+            },
+            {
+                path:'/dashboard/fav-lessons',
+                element:<MyFavorites></MyFavorites>
+            },
+            
         ]
 
     },
