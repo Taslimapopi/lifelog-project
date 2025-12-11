@@ -4,16 +4,18 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxios from "../../hooks/useAxious";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyLessons = () => {
   const { user } = useAuth();
   const axios = useAxios();
   const queryClient = useQueryClient()
+  const axiosSecure = useAxiosSecure()
 
   const { data: myLessons = [] } = useQuery({
     queryKey: ["myLessons", user.email],
     queryFn: async () => {
-      const res = await axios.get(`/lessons?email=${user.email}`);
+      const res = await axiosSecure.get(`/lessons?email=${user.email}`);
       return res.data;
     },
   });
