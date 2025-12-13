@@ -19,6 +19,11 @@ import Payment from "../Payment/Payment";
 import PaymentCancelled from "../Payment/PaymentCancelled";
 import MyFavorites from "../pages/Dashboard/FavriteLessons";
 import Profile from "../pages/Auth/Profile";
+import AdminHome from "../pages/AdminDashboard/AdminHome";
+import ManageUser from "../pages/AdminDashboard/ManageUser";
+import ManageLessons from "../pages/AdminDashboard/ManageLessons";
+import ReportedLessons from "../pages/AdminDashboard/ReportedLessons";
+import AdminProfile from "../pages/AdminDashboard/AdminProfile";
 
 
 export const router = createBrowserRouter([
@@ -97,6 +102,28 @@ export const router = createBrowserRouter([
                 path:'/dashboard/fav-lessons',
                 element:<MyFavorites></MyFavorites>
             },
+            // admin routes
+            {
+                path:'/dashboard/admin',
+                element:<AdminHome></AdminHome>
+            },
+            {
+                path:'/dashboard/admin/manage-users',
+                element:<ManageUser></ManageUser>
+            },
+            {
+                path:'/dashboard/admin/manage-lessons',
+                element:<ManageLessons></ManageLessons>
+
+            },
+            {
+                path:'/dashboard/admin/reported-lessons',
+                element:<ReportedLessons></ReportedLessons>
+            },
+            {
+                path:'/dashboard/admin/profile',
+                element:<AdminProfile></AdminProfile>
+            }
             
         ]
 

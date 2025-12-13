@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxious";
+import ReportLesson from "../../Components/Form/Home/ReportLesson";
 
 const LessonDetails = () => {
   const { user } = useAuth();
@@ -48,11 +49,10 @@ const LessonDetails = () => {
     favorites = [],
   } = lesson;
 
-  
-
   useEffect(() => {
     axiosInstance.get(`/users/email/${user?.email}`).then((res) => {
       setCurrentUser(res.data);
+      console.log(res.data);
     });
   }, [axiosInstance, user]);
 
@@ -190,9 +190,12 @@ const LessonDetails = () => {
           {isFavorited ? <FaBookmark /> : <FaRegBookmark />} Favorite
         </button>
 
-        <button className="px-5 py-2 bg-gray-700 text-white rounded-lg flex items-center gap-2">
-          <FaFlag /> Report
-        </button>
+        <div className="flex flex-col gap-2">
+          {/* Existing Like and Favorite buttons */}
+
+          {/* Report section */}
+          <ReportLesson lessonId={lesson._id} userEmail={currentUser?.email} />
+        </div>
       </div>
 
       <hr className="my-6" />
