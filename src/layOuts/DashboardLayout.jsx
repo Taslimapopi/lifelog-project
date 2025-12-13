@@ -1,5 +1,5 @@
 import React from "react";
-import { MdManageAccounts, MdManageSearch, MdOutlineFavorite, MdOutlinePlayCircleFilled, MdOutlinePlayLesson, MdOutlinePlaylistAdd } from "react-icons/md";
+import { MdManageAccounts, MdManageSearch, MdOutlineFavorite, MdOutlinePlayCircleFilled, MdOutlinePlayLesson, MdOutlinePlaylistAdd, MdReportProblem } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from '../assets/logo-lifelog.png'
 const DashboardLayout = () => {
@@ -115,6 +115,17 @@ const DashboardLayout = () => {
                 {" "}
                 <MdOutlineFavorite />
                 <span className="is-drawer-close:hidden">Favorite Lessons</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
+                data-tip="Report Lessons"
+                to="/dashboard/admin/reported-lessons"
+              >
+                {" "}
+                <MdReportProblem />
+                <span className="is-drawer-close:hidden">Report Lessons</span>
               </NavLink>
             </li>
 

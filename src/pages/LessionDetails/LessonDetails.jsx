@@ -194,7 +194,7 @@ const LessonDetails = () => {
           {/* Existing Like and Favorite buttons */}
 
           {/* Report section */}
-          <ReportLesson lessonId={lesson._id} userEmail={currentUser?.email} />
+          <ReportLesson lessonId={lesson._id} userEmail={user?.email} />
         </div>
       </div>
 

@@ -3,9 +3,11 @@ import Swal from "sweetalert2";
 import useAxios from "../../../hooks/useAxious";
 
 
+
+
 const ReportLesson = ({ lessonId, userEmail }) => {
     console.log(lessonId,userEmail)
-  const axios = useAxios ();
+  const axios = useAxios();
   const [reason, setReason] = useState("");
 
   const reasons = [
@@ -18,21 +20,21 @@ const ReportLesson = ({ lessonId, userEmail }) => {
   ];
 
   const handleReport = async () => {
-    if (!reason) return alert("Please select a reason to report.");
+  if (!reason) return alert("Please select a reason to report.");
 
-    try {
-      await axios.post("/reports", {
-        lessonId,
-        reporterEmail: userEmail,
-        reason,
-        reportedAt: new Date().toISOString(),
-      });
-      Swal.fire("Reported!", "Thank you for your report.", "success");
-      setReason("");
-    } catch (error) {
-      Swal.fire("Error!", "Something went wrong. Try again.", "error");
-    }
-  };
+  try {
+    await axios.patch(`/lessons/${lessonId}/report`, {
+      reporterEmail: userEmail,
+      reason,
+    });
+
+    Swal.fire("Reported!", "Thank you for your report.", "success");
+    setReason("");
+  } catch (error) {
+    Swal.fire("Error!", "Something went wrong. Try again.", "error");
+  }
+};
+
 
   return (
     <div className="mt-4">
