@@ -7,9 +7,14 @@ import ErrorPage from "../../pages/ErrorPage";
 import { TbFidgetSpinner } from "react-icons/tb";
 import LoadingSpinner from "../../pages/LoadingSpinner";
 
+import Lottie from "lottie-react";
+import successAnimation from "../../assets/SuccessLottie.json";
+import { useState } from "react";
+
 const AddLessonForm = () => {
   const { user } = useAuth();
   const axios = useAxios();
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
   // useMutation hook useCase
 
@@ -22,8 +27,11 @@ const AddLessonForm = () => {
     mutationFn: async (payload) => await axios.post("/lessons", payload),
     onSuccess: (data) => {
       console.log(data);
-      alert('data post success')
-      mutationReset()
+      setShowSuccessAnimation(true);
+      mutationReset();
+      setTimeout(() => {
+        setShowSuccessAnimation(false);
+      }, 3000);
     },
     onError: (error) => {
       console.log(error);
@@ -47,10 +55,17 @@ const AddLessonForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { title, category, emotionalTone, privacy, description, image,accessLevel } =
-      data;
+    const {
+      title,
+      category,
+      emotionalTone,
+      privacy,
+      description,
+      image,
+      accessLevel,
+    } = data;
     const imageFile = image[0];
-   
+
     try {
       const imageUrl = await imageUpload(imageFile);
       const lessonData = {
@@ -74,19 +89,20 @@ const AddLessonForm = () => {
     } catch (err) {
       console.log(err);
     }
-    //  console.table(lessonData)
-    // from my previous addLesson.jsx
-    //  axios.post('/lessons',lessonData)
-    //   .then(res=>{
-    //     console.log('after lesson post',res.data)
-    //     alert('lesson created')
-    //   })
   };
-  if (isPending) return <LoadingSpinner></LoadingSpinner>
-  if (isError) return <ErrorPage />
+  if (isPending) return <LoadingSpinner></LoadingSpinner>;
+  if (isError) return <ErrorPage />;
 
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
+      {showSuccessAnimation && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="w-64 h-64 bg-white rounded-lg p-4 shadow-lg flex flex-col justify-center items-center">
+          <Lottie animationData={successAnimation} loop={false} />
+          <p className="mt-4 text-green-600 font-semibold">Lesson added successfully!</p>
+        </div>
+      </div>
+    )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-6">
@@ -176,7 +192,9 @@ const AddLessonForm = () => {
                 required
                 className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
                 name="accessLevel"
-                {...register("accessLevel", { required: "Access Level is required" })}
+                {...register("accessLevel", {
+                  required: "Access Level is required",
+                })}
               >
                 <option value="free">Free</option>
                 <option value="premium">Premium</option>
@@ -269,15 +287,15 @@ const AddLessonForm = () => {
             >
               Save & Continue
             </button> */}
-             {/* Submit Button */}
+            {/* Submit Button */}
             <button
-              type='submit'
-              className='w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 '
+              type="submit"
+              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 "
             >
               {isPending ? (
-                <TbFidgetSpinner className='animate-spin m-auto' />
+                <TbFidgetSpinner className="animate-spin m-auto" />
               ) : (
-                'Save & Continue'
+                "Save & Continue"
               )}
             </button>
           </div>
