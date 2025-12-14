@@ -3,8 +3,8 @@ import React from 'react';
 
 
 const axiosInstance = axios.create({
-    baseURL: 'https://lifelog-server.vercel.app'
-    // baseURL: 'http://localhost:3000'
+    // baseURL: 'https://lifelog-server.vercel.app'
+    baseURL: 'http://localhost:3000'
 })
 
 const useAxios = () => {
