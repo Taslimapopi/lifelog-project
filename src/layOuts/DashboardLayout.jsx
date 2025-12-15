@@ -1,27 +1,22 @@
 import React from "react";
-import { MdManageAccounts, MdManageSearch, MdOutlineFavorite, MdOutlinePlayCircleFilled, MdOutlinePlayLesson, MdOutlinePlaylistAdd, MdReportProblem } from "react-icons/md";
+import {
+  MdManageAccounts,
+  MdManageSearch,
+  MdOutlineFavorite,
+  MdOutlinePlayCircleFilled,
+  MdOutlinePlayLesson,
+  MdOutlinePlaylistAdd,
+  MdReportProblem,
+} from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
-import logo from '../assets/logo-lifelog.png'
+import logo from "../assets/logo-lifelog.png";
 import { FaProcedures, FaProductHunt } from "react-icons/fa";
-import useAuth from "../hooks/useAuth";
+
 import useRole from "../hooks/useRole";
 import AdminDashboard from "../pages/AdminDashboard/AdminHome";
 import Profile from "../pages/Auth/Profile";
 const DashboardLayout = () => {
- 
-  const {role} = useRole();
-
-  console.log(role)
-
-
-// if (roleLoading) {
-//   return (
-//     <div className="flex items-center justify-center min-h-screen">
-//       <span className="loading loading-spinner loading-lg"></span>
-//     </div>
-//   );
-// }
-
+  const { role } = useRole();
 
   return (
     <div className="drawer lg:drawer-open">
@@ -53,14 +48,17 @@ const DashboardLayout = () => {
           <div className="px-4 text-white">Life-Log Dashboard</div>
         </nav>
         {/* Page content here */}
-        {
-          role==='admin'&& <AdminDashboard></AdminDashboard>
-        }
-        {
-          role==='user'&& <Profile></Profile>
-        }
+        {/* {role === "admin" &&
+        <>
+        <AdminDashboard></AdminDashboard>
+         </>
+         
+         } */}
+
+         <Outlet></Outlet>
         
-        <Outlet></Outlet>
+
+        
         {/* <div className="p-4">Page Content</div> */}
       </div>
 
@@ -94,11 +92,13 @@ const DashboardLayout = () => {
                   <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                   <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 </svg>
-                <span className="is-drawer-close:hidden text-white">Homepage</span>
+                <span className="is-drawer-close:hidden text-white">
+                  Homepage
+                </span>
               </Link>
             </li>
             {/* my links */}
-            <li>
+            {/* <li>
               <NavLink
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
                 data-tip="Profile"
@@ -108,82 +108,80 @@ const DashboardLayout = () => {
                 <FaProductHunt />
                 <span className="is-drawer-close:hidden">My Profile</span>
               </NavLink>
-            </li>
+            </li> */}
 
-            {
-              role==='user' &&
+            {role === "user" && (
               <>
-              
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
-                data-tip="My Lessons"
-                to="/dashboard/my-lessons"
-              >
-                {" "}
-                <MdOutlinePlayLesson />
-                <span className="is-drawer-close:hidden">My Lessons</span>
-              </NavLink>
-            </li>
-            
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
-                data-tip="Favorite Lessons"
-                to="/dashboard/fav-lessons"
-              >
-                {" "}
-                <MdOutlineFavorite />
-                <span className="is-drawer-close:hidden">Favorite Lessons</span>
-              </NavLink>
-            </li>
-              </>
-            }
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
+                    data-tip="My Lessons"
+                    to="/dashboard/my-lessons"
+                  >
+                    {" "}
+                    <MdOutlinePlayLesson />
+                    <span className="is-drawer-close:hidden">My Lessons</span>
+                  </NavLink>
+                </li>
 
-            { 
-              role==='admin' && 
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
+                    data-tip="Favorite Lessons"
+                    to="/dashboard/fav-lessons"
+                  >
+                    {" "}
+                    <MdOutlineFavorite />
+                    <span className="is-drawer-close:hidden">
+                      Favorite Lessons
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {role === "admin" && (
               <>
-              <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
-                data-tip="manage Users"
-                to="/dashboard/admin/manage-users"
-              >
-                {" "}
-                <MdManageAccounts />
-                <span className="is-drawer-close:hidden">Manage Users</span>
-              </NavLink>
-            </li>
-              <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
-                data-tip="Manage Lessons"
-                to="/dashboard/admin/manage-lessons"
-              >
-                {" "}
-                <MdManageSearch />
-                <span className="is-drawer-close:hidden">Manage Lessons</span>
-              </NavLink>
-            </li>
-            
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
-                data-tip="Report Lessons"
-                to="/dashboard/admin/reported-lessons"
-              >
-                {" "}
-                <MdReportProblem />
-                <span className="is-drawer-close:hidden">Report Lessons</span>
-              </NavLink>
-            </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
+                    data-tip="manage Users"
+                    to="/dashboard/admin/manage-users"
+                  >
+                    {" "}
+                    <MdManageAccounts />
+                    <span className="is-drawer-close:hidden">Manage Users</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
+                    data-tip="Manage Lessons"
+                    to="/dashboard/admin/manage-lessons"
+                  >
+                    {" "}
+                    <MdManageSearch />
+                    <span className="is-drawer-close:hidden">
+                      Manage Lessons
+                    </span>
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
+                    data-tip="Report Lessons"
+                    to="/dashboard/admin/reported-lessons"
+                  >
+                    {" "}
+                    <MdReportProblem />
+                    <span className="is-drawer-close:hidden">
+                      Report Lessons
+                    </span>
+                  </NavLink>
+                </li>
               </>
-            }
-
-
-            
-            
-
+            )}
           </ul>
         </div>
       </div>

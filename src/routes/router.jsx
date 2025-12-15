@@ -24,6 +24,7 @@ import ManageUser from "../pages/AdminDashboard/ManageUser";
 import ManageLessons from "../pages/AdminDashboard/ManageLessons";
 import ReportedLessons from "../pages/AdminDashboard/ReportedLessons";
 import AdminProfile from "../pages/AdminDashboard/AdminProfile";
+import DashboardHome from "../pages/DashboardHome/DashboardHome";
 
 
 export const router = createBrowserRouter([
@@ -86,8 +87,8 @@ export const router = createBrowserRouter([
         element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children:[
             {
-                path:'/dashboard/profile',
-                element:<Profile></Profile>
+                index: true,
+                element:<DashboardHome></DashboardHome>
                 
             },
             // author routes
