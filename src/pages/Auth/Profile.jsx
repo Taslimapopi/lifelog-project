@@ -5,9 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import LessonCard from "../../Components/Form/Home/LessonCard";
+import useRole from "../../hooks/useRole";
 
 const Profile = () => {
   const { user } = useAuth();
+  const {role } = useRole()
   const axiosInstance = useAxios();
   const axiosSecure = useAxiosSecure()
 
@@ -22,15 +24,6 @@ const Profile = () => {
     });
   }, [user, axiosInstance]);
 
-  // Fetch user-created lessons
-//   const { data: userLessons = [] } = useQuery({
-//     queryKey: ["userLessons", currentUser?._id],
-//     enabled: !!currentUser?._id,
-//     queryFn: async () => {
-//       const res = await axiosInstance.get(`/lessons/user/${currentUser._id}`);
-//       return res.data.filter((lesson) => lesson.accessLevel === "public");
-//     },
-//   });
 
 const { data: myLessons = [] } = useQuery({
   queryKey: ["myLessons", currentUser?.email],
