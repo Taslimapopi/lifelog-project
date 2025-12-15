@@ -21,6 +21,8 @@ const LessonDetails = () => {
   const axiosInstance = useAxios();
   const [currentUser, setCurrentUser] = useState(null);
   const [commentText, setCommentText] = useState("");
+  const [authorLessonCount, setAuthorLessonCount] = useState(0);
+
 
   const {
     data: lesson = {},
@@ -56,6 +58,18 @@ const LessonDetails = () => {
       console.log(res.data);
     });
   }, [axiosInstance, user]);
+
+  useEffect(() => {
+  if (!author?.email) return;
+
+  axios.get(
+    `${import.meta.env.VITE_API_URL}/lessons/count/${author.email}`
+  )
+  .then(res => {
+    setAuthorLessonCount(res.data.count);
+  });
+}, [author]);
+
 
   const isPremium = accessLevel === "premium";
   const isUserPremium = currentUser?.isUserPremium === true;
@@ -154,6 +168,11 @@ const LessonDetails = () => {
     },
   });
 
+  // author lesson count
+
+ 
+
+
   return (
     <div className="max-w-5xl mx-auto py-10 px-6">
       {/* Featured Image */}
@@ -191,8 +210,8 @@ const LessonDetails = () => {
         />
         <div>
           <h3 className="text-xl font-bold">{author?.name}</h3>
-          <p className="text-sm text-gray-500">
-            Total Lessons: {author?.totalLessons || 0}
+          <p className="text-sm text-gray-500 mt-2">
+            Total Lessons: {authorLessonCount}
           </p>
 
           <Link to={`/auth/profile`}>
@@ -202,6 +221,9 @@ const LessonDetails = () => {
           </Link>
         </div>
       </div>
+
+ 
+
 
       <hr className="my-6" />
 
