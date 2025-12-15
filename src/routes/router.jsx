@@ -78,17 +78,18 @@ export const router = createBrowserRouter([
                 path:'/auth/register',
                 element: <Register></Register>
             },
-            {
-                path:'/auth/profile',
-                element:<Profile></Profile>
-                
-            }
+            
         ]
     },
     {
         path:'dashboard',
         element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children:[
+            {
+                path:'/dashboard/profile',
+                element:<Profile></Profile>
+                
+            },
             // author routes
             {
                 path:'/dashboard/my-lessons',

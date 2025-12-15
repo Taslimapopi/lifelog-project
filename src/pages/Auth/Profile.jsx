@@ -9,9 +9,9 @@ import useRole from "../../hooks/useRole";
 
 const Profile = () => {
   const { user } = useAuth();
-  const {role } = useRole()
+  const { role } = useRole();
   const axiosInstance = useAxios();
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -24,18 +24,16 @@ const Profile = () => {
     });
   }, [user, axiosInstance]);
 
+  const { data: myLessons = [] } = useQuery({
+    queryKey: ["myLessons", currentUser?.email],
+    enabled: !!currentUser?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/lessons?email=${currentUser.email}`);
+      return res.data;
+    },
+  });
 
-const { data: myLessons = [] } = useQuery({
-  queryKey: ["myLessons", currentUser?.email],
-  enabled: !!currentUser?.email,
-  queryFn: async () => {
-    const res = await axiosSecure.get(`/lessons?email=${currentUser.email}`);
-    return res.data;
-  },
-});
-
-
-  console.log(myLessons)
+  // console.log(myLessons);
 
   // Fetch favorite count
   const { data: favCount = 0 } = useQuery({
@@ -64,11 +62,20 @@ const { data: myLessons = [] } = useQuery({
         />
 
         <div>
-          <h3 className="text-xl font-semibold flex items-center gap-2">
+          <h3 className="text-xl font-semibold flex items-center gap-3 flex-wrap">
             {currentUser.displayName}
+
+            {/* Premium Badge */}
             {currentUser.isUserPremium && (
-              <span className="text-yellow-500">⭐ Premium</span>
+              <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-700 rounded-full border border-yellow-300">
+                Premium Member
+              </span>
             )}
+
+            {/* Role Badge */}
+            <span className="px-2 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-700 rounded-full capitalize border border-indigo-200">
+              {role}
+            </span>
           </h3>
 
           <p className="text-gray-600">{currentUser.email}</p>
