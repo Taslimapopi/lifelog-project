@@ -44,9 +44,23 @@ const ManageLessons = () => {
     }
   };
 
+  // const markFeatured = async (id) => {
+  //   await axiosSecure.patch(`/lessons/feature/${id}`);
+  //   Swal.fire("Updated!", "Lesson marked as featured!", "success");
+  //   refetch();
+  // };
+
   const markFeatured = async (id) => {
-    await axiosSecure.patch(`/lessons/feature/${id}`);
-    Swal.fire("Updated!", "Lesson marked as featured!", "success");
+    const res = await axiosSecure.patch(`/lessons/feature/${id}`);
+
+    Swal.fire(
+      "Updated!",
+      res.data.isFeatured
+        ? "Lesson marked as featured!"
+        : "Lesson removed from featured!",
+      "success"
+    );
+
     refetch();
   };
 
@@ -146,11 +160,8 @@ const ManageLessons = () => {
                   </Link>
                 </td>
                 <td className="p-3 border flex gap-2 justify-center">
-                  {lesson.isFeatured ? (
-                    <button
-                     
-                      className="px-3 py-1 bg-yellow-300 text-gray-600 rounded btn-xs btn "
-                    >
+                  {/* {lesson.isFeatured ? (
+                    <button className="px-3 py-1 bg-yellow-300 text-gray-600 rounded btn-xs btn ">
                       Featured ✓
                     </button>
                   ) : (
@@ -160,7 +171,18 @@ const ManageLessons = () => {
                     >
                       Feature
                     </button>
-                  )}
+                  )} */}
+
+                  <button
+                    onClick={() => markFeatured(lesson._id)}
+                    className={`px-3 py-1 rounded btn-xs text-white ${
+                      lesson.isFeatured
+                        ? "bg-yellow-400 hover:bg-yellow-500"
+                        : "bg-yellow-600 hover:bg-yellow-700"
+                    }`}
+                  >
+                    {lesson.isFeatured ? "Unfeature" : "Feature"}
+                  </button>
 
                   {lesson.isReviewed ? (
                     <button

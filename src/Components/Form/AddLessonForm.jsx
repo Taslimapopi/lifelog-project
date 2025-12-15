@@ -10,10 +10,11 @@ import LoadingSpinner from "../../pages/LoadingSpinner";
 import Lottie from "lottie-react";
 import successAnimation from "../../assets/SuccessLottie.json";
 import { useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddLessonForm = () => {
   const { user } = useAuth();
-  const axios = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
   // useMutation hook useCase
@@ -24,7 +25,7 @@ const AddLessonForm = () => {
     mutateAsync,
     reset: mutationReset,
   } = useMutation({
-    mutationFn: async (payload) => await axios.post("/lessons", payload),
+    mutationFn: async (payload) => await axiosSecure.post("/lessons", payload),
     onSuccess: (data) => {
       console.log(data);
       setShowSuccessAnimation(true);
