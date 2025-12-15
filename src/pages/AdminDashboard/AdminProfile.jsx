@@ -25,6 +25,7 @@ const AdminProfile = () => {
 
       <h2 className="text-2xl font-bold">{admin.name}</h2>
       <p className="text-gray-500">{admin.email}</p>
+      
 
       <span className="inline-block mt-4 px-4 py-1 bg-red-600 text-white rounded-full text-sm">
         ADMIN

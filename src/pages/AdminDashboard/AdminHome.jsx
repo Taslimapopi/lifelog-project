@@ -7,6 +7,7 @@ import {
   MdWorkspacePremium,
 } from "react-icons/md";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Link } from "react-router";
 
 const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -42,9 +43,7 @@ const AdminDashboard = () => {
   const { data: todayLessons = [] } = useQuery({
     queryKey: ["today-lessons"],
     queryFn: async () => {
-      const res = await axiosSecure.get(
-        "/public-lessons?sort=newest&limit=5"
-      );
+      const res = await axiosSecure.get("/public-lessons?sort=newest&limit=5");
       return res.data.result;
     },
   });
@@ -53,9 +52,7 @@ const AdminDashboard = () => {
     <div className="p-6 space-y-8">
       {/* Header */}
       <h2 className="text-3xl font-bold">Admin Dashboard</h2>
-      <p className="text-gray-500">
-        Platform overview & activity summary
-      </p>
+      <p className="text-gray-500">Platform overview & activity summary</p>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -81,11 +78,17 @@ const AdminDashboard = () => {
         />
       </div>
 
+      {/* <div>
+        <Link to="/dashboard/profile/update">
+          <button className="mt-3 px-3 py-1 bg-blue-600 text-white rounded">
+            Update Profile
+          </button>
+        </Link>
+      </div> */}
+
       {/* Top Contributors */}
       <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-xl font-semibold mb-4">
-          Most Active Contributors
-        </h3>
+        <h3 className="text-xl font-semibold mb-4">Most Active Contributors</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {topUsers.map((user) => (
@@ -97,9 +100,7 @@ const AdminDashboard = () => {
                 src={user.photoURL}
                 className="w-20 h-20 rounded-full object-cover"
               />
-              <h4 className="font-semibold mt-3">
-                {user.displayName}
-              </h4>
+              <h4 className="font-semibold mt-3">{user.displayName}</h4>
               <p className="text-sm text-gray-500">{user.email}</p>
             </div>
           ))}
@@ -108,9 +109,7 @@ const AdminDashboard = () => {
 
       {/* Today Lessons */}
       <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-xl font-semibold mb-4">
-          Today’s New Lessons
-        </h3>
+        <h3 className="text-xl font-semibold mb-4">Today’s New Lessons</h3>
 
         <ul className="space-y-3">
           {todayLessons.map((lesson) => (
@@ -120,9 +119,7 @@ const AdminDashboard = () => {
             >
               <div>
                 <p className="font-medium">{lesson.title}</p>
-                <p className="text-sm text-gray-500">
-                  {lesson.category}
-                </p>
+                <p className="text-sm text-gray-500">{lesson.category}</p>
               </div>
               <span className="text-sm text-gray-400">
                 {new Date(lesson.createdAt).toLocaleDateString()}

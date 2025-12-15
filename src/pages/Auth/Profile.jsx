@@ -15,10 +15,8 @@ const Profile = () => {
 
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Fetch user info from MongoDB
   useEffect(() => {
     if (!user?.email) return;
-
     axiosInstance.get(`/users/email/${user.email}`).then((res) => {
       setCurrentUser(res.data);
     });
@@ -33,9 +31,6 @@ const Profile = () => {
     },
   });
 
-  // console.log(myLessons);
-
-  // Fetch favorite count
   const { data: favCount = 0 } = useQuery({
     queryKey: ["favoritesCount", currentUser?._id],
     enabled: !!currentUser?._id,
@@ -50,63 +45,84 @@ const Profile = () => {
   if (!currentUser) return <p className="text-center p-10">Loading...</p>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6">My Profile</h2>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      {/* Header */}
+      <h2 className="text-3xl font-bold mb-8 text-gray-800">
+        Profile Overview
+      </h2>
 
       {/* Profile Card */}
-      <div className="bg-white p-5 shadow rounded-lg flex gap-6 items-center">
-        <img
-          src={currentUser.photoURL}
-          alt="Profile"
-          className="w-24 h-24 rounded-full border object-cover"
-        />
+      <div className="bg-white rounded-xl shadow-md p-6 flex flex-col md:flex-row gap-6 items-center md:items-start">
+        {/* Avatar */}
+        <div className="relative">
+          <img
+            src={currentUser.photoURL}
+            alt="Profile"
+            className="w-28 h-28 rounded-full object-cover ring-4 ring-indigo-100 shadow"
+          />
+        </div>
 
-        <div>
-          <h3 className="text-xl font-semibold flex items-center gap-3 flex-wrap">
-            {currentUser.displayName}
+        {/* Info */}
+        <div className="flex-1">
+          <div className="flex flex-wrap items-center gap-3">
+            <h3 className="text-2xl font-semibold text-gray-800">
+              {currentUser.displayName}
+            </h3>
 
-            {/* Premium Badge */}
             {currentUser.isUserPremium && (
-              <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-700 rounded-full border border-yellow-300">
-                Premium Member
+              <span className="px-3 py-1 text-xs font-medium bg-yellow-100 text-yellow-700 rounded-full border border-yellow-300">
+                Premium
               </span>
             )}
 
-            {/* Role Badge */}
-            <span className="px-2 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-700 rounded-full capitalize border border-indigo-200">
+            <span className="px-3 py-1 text-xs font-medium bg-indigo-100 text-indigo-700 rounded-full capitalize border border-indigo-200">
               {role}
             </span>
-          </h3>
-
-          <p className="text-gray-600">{currentUser.email}</p>
-
-          <div className="flex gap-5 mt-3">
-            <p className="text-gray-700">
-              <strong>{myLessons.length}</strong> Lessons Created
-            </p>
-
-            <p className="text-gray-700">
-              <strong>{favCount}</strong> Lessons Saved
-            </p>
           </div>
 
-          <button className="mt-3 px-3 py-1 bg-blue-600 text-white rounded">
-            Update Profile
-          </button>
+          <p className="text-gray-500 mt-1">{currentUser.email}</p>
+
+          {/* Stats */}
+          <div className="flex gap-6 mt-5">
+            <div>
+              <p className="text-sm text-gray-500">Lessons Created</p>
+              <p className="text-xl font-bold text-gray-800">
+                {myLessons.length}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Lessons Saved</p>
+              <p className="text-xl font-bold text-gray-800">{favCount}</p>
+            </div>
+          </div>
+
+          {/* Action */}
+          <Link to="/dashboard/profile/update">
+            <button className="mt-6 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition">
+              Update Profile
+            </button>
+          </Link>
         </div>
       </div>
 
-      {/* User Lessons */}
-      <h3 className="text-2xl font-semibold mt-10 mb-4">Your Public Lessons</h3>
+      {/* Lessons Section */}
+      <div className="mt-12">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+          Your Public Lessons
+        </h3>
 
-      {myLessons.length === 0 && (
-        <p className="text-gray-500">No public lessons created yet.</p>
-      )}
+        {myLessons.length === 0 && (
+          <p className="text-gray-500">
+            You haven’t published any public lessons yet.
+          </p>
+        )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {myLessons.map((lesson) => (
-          <LessonCard lesson={lesson}></LessonCard>
-        ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {myLessons.map((lesson) => (
+            <LessonCard key={lesson._id} lesson={lesson} />
+          ))}
+        </div>
       </div>
     </div>
   );

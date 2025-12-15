@@ -13,7 +13,7 @@ const AdminRoute = ({ children }) => {
     }
 
     if (role !== 'admin') {
-        return <P>Forbidden page</P>
+        return <p>forbidden page</p>
     }
 
     return children;

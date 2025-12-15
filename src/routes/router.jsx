@@ -26,114 +26,132 @@ import ReportedLessons from "../pages/AdminDashboard/ReportedLessons";
 import AdminProfile from "../pages/AdminDashboard/AdminProfile";
 import DashboardHome from "../pages/DashboardHome/DashboardHome";
 import AdminRoute from "./AdminRoute";
-
+import UpdateProfile from "../pages/Dashboard/UpdateProfile";
 
 export const router = createBrowserRouter([
-    {
-        path:'/',
-        element: <HomeLayout></HomeLayout>,
-        hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
-        children:[
-            {
-                index:true,
-                Component:Home,
-            },
-            {
-                path: '/public-lessons',
-                element:<PublicLesson></PublicLesson>
-
-            },
-            {
-                path:'/pricing',
-                element:<Pricing></Pricing>
-
-            },
-            {
-                path:'/payment',
-                element:<Payment></Payment>
-            },
-            {
-                path:'/payment-cancelled',
-                element:<PaymentCancelled></PaymentCancelled>
-
-            },
-            {
-                path:'/add-lessons',
-                element:<PrivateRoute><AddLessions></AddLessions></PrivateRoute> 
-            },
-            {
-                path:'/lessons/:id',
-                element: <LessonDetails></LessonDetails>
-            },
-            
-        ]
-    },
-    {
-        path:'/auth',
-        element:<AuthLayouts></AuthLayouts>,
-        children: [
-            {
-                path:'/auth/login',
-                element: <Login></Login>
-            },
-            {
-                path:'/auth/register',
-                element: <Register></Register>
-            },
-            
-        ]
-    },
-    {
-        path:'dashboard',
-        element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
-        children:[
-            {
-                index: true,
-                element:<DashboardHome></DashboardHome>
-                
-            },
-            // author routes
-            {
-                path:'/dashboard/my-lessons',
-                element: <MyLessons></MyLessons>
-            },
-            {
-                path: '/dashboard/update-lesson/:id',
-                element: <UpdateLessonForm></UpdateLessonForm>
-            },
-            {
-                path:'/dashboard/fav-lessons',
-                element:<MyFavorites></MyFavorites>
-            },
-            // admin routes
-            // {
-            //     path:'/dashboard/admin',
-            //     element:<AdminHome></AdminHome>
-            // },
-            {
-                path:'/dashboard/admin/manage-users',
-                element:<AdminRoute><ManageUser></ManageUser></AdminRoute>
-            },
-            {
-                path:'/dashboard/admin/manage-lessons',
-                element:<AdminRoute><ManageLessons></ManageLessons></AdminRoute>
-
-            },
-            {
-                path:'/dashboard/admin/reported-lessons',
-                element:<AdminRoute><ReportedLessons></ReportedLessons></AdminRoute>
-            },
-            {
-                path:'/dashboard/admin/profile',
-                element:<AdminProfile></AdminProfile>
-            }
-            
-        ]
-
-    },
-    {
-        path:'/*',
-        element:<ErrorPage></ErrorPage>
-    }
-
-])
+  {
+    path: "/",
+    element: <HomeLayout></HomeLayout>,
+    hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
+    children: [
+      {
+        index: true,
+        Component: Home,
+      },
+      {
+        path: "/public-lessons",
+        element: <PublicLesson></PublicLesson>,
+      },
+      {
+        path: "/pricing",
+        element: <Pricing></Pricing>,
+      },
+      {
+        path: "/payment",
+        element: <Payment></Payment>,
+      },
+      {
+        path: "/payment-cancelled",
+        element: <PaymentCancelled></PaymentCancelled>,
+      },
+      {
+        path: "/add-lessons",
+        element: (
+          <PrivateRoute>
+            <AddLessions></AddLessions>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/lessons/:id",
+        element: <LessonDetails></LessonDetails>,
+      },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayouts></AuthLayouts>,
+    children: [
+      {
+        path: "/auth/login",
+        element: <Login></Login>,
+      },
+      {
+        path: "/auth/register",
+        element: <Register></Register>,
+      },
+      {
+        path:'/auth/profile',
+        element: <Profile></Profile>
+      }
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <DashboardHome></DashboardHome>,
+      },
+      {
+        path: "/dashboard/profile/update",
+        element: <UpdateProfile />,
+      },
+      // author routes
+      {
+        path: "/dashboard/my-lessons",
+        element: <MyLessons></MyLessons>,
+      },
+      {
+        path: "/dashboard/update-lesson/:id",
+        element: <UpdateLessonForm></UpdateLessonForm>,
+      },
+      {
+        path: "/dashboard/fav-lessons",
+        element: <MyFavorites></MyFavorites>,
+      },
+      // admin routes
+      // {
+      //     path:'/dashboard/admin',
+      //     element:<AdminHome></AdminHome>
+      // },
+      {
+        path: "/dashboard/admin/manage-users",
+        element: (
+          <AdminRoute>
+            <ManageUser></ManageUser>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/manage-lessons",
+        element: (
+          <AdminRoute>
+            <ManageLessons></ManageLessons>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/reported-lessons",
+        element: (
+          <AdminRoute>
+            <ReportedLessons></ReportedLessons>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/profile",
+        element: <AdminProfile></AdminProfile>,
+      },
+    ],
+  },
+  {
+    path: "/*",
+    element: <ErrorPage></ErrorPage>,
+  },
+]);

@@ -8,10 +8,12 @@ import ErrorPage from "../../pages/ErrorPage";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { imageUpload } from "../../Components/Utils";
 import { useNavigate, useParams } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UpdateLessonForm = () => {
   const { user } = useAuth();
   const axios = useAxios();
+  const axiosSecure = useAxiosSecure()
   const { id } = useParams();
   const navigate = useNavigate()
 
@@ -19,7 +21,7 @@ const UpdateLessonForm = () => {
   const { data: lesson = {}, isLoading, isError } = useQuery({
     queryKey: ["lesson", id],
     queryFn: async () => {
-      const res = await axios.get(`/lessons/${id}`);
+      const res = await axiosSecure.get(`/lessons/${id}`);
       return res.data;
     },
   });
@@ -30,7 +32,7 @@ const UpdateLessonForm = () => {
     mutateAsync,
     reset: mutationReset,
   } = useMutation({
-    mutationFn: async (payload) => await axios.put(`/update-lessons/${id}`, payload),
+    mutationFn: async (payload) => await axiosSecure.put(`/update-lessons/${id}`, payload),
     onSuccess: () => {
       alert("Lesson updated successfully!");
       navigate('/dashboard/my-lessons')
