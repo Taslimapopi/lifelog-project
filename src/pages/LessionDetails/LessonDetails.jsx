@@ -20,6 +20,7 @@ const LessonDetails = () => {
   const navigate = useNavigate();
   const axiosInstance = useAxios();
   const [currentUser, setCurrentUser] = useState(null);
+  const [commentText, setCommentText] = useState("");
 
   const {
     data: lesson = {},
@@ -114,6 +115,45 @@ const LessonDetails = () => {
     (uid) => String(uid) === String(user?._id)
   );
 
+  // comment fetch api
+
+  const { data: comments = [], refetch: refetchComments } = useQuery({
+    queryKey: ["comments", id],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/lessons/${id}/comments`
+      );
+      return res.data;
+    },
+  });
+
+  const handleCommentSubmit = async () => {
+    if (!user) return alert("Please login to comment");
+    if (!commentText.trim()) return;
+
+    await axios.post(`${import.meta.env.VITE_API_URL}/lessons/${id}/comment`, {
+      userId: currentUser._id,
+      userName: currentUser.displayName,
+      comment: commentText,
+    });
+
+    setCommentText("");
+    refetchComments();
+  };
+
+  // recommended lesson
+
+  const { data: recommended = [] } = useQuery({
+    queryKey: ["recommendedLessons", id],
+    enabled: !!lesson?._id,
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/lessons/recommended/${id}`
+      );
+      return res.data;
+    },
+  });
+
   return (
     <div className="max-w-5xl mx-auto py-10 px-6">
       {/* Featured Image */}
@@ -155,7 +195,7 @@ const LessonDetails = () => {
             Total Lessons: {author?.totalLessons || 0}
           </p>
 
-          <Link to={`/author/${author?._id}`}>
+          <Link to={`/auth/profile`}>
             <button className="mt-2 text-blue-600 underline">
               View all lessons by this author →
             </button>
@@ -205,26 +245,68 @@ const LessonDetails = () => {
         <h2 className="text-xl font-bold mb-2">Comments</h2>
 
         <textarea
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
           placeholder="Write a comment..."
           className="w-full p-3 border rounded-lg"
-        ></textarea>
+        />
 
-        <button className="mt-3 bg-blue-600 text-white px-5 py-2 rounded-lg">
+        <button
+          onClick={handleCommentSubmit}
+          className="mt-3 bg-blue-600 text-white px-5 py-2 rounded-lg"
+        >
           Post Comment
         </button>
 
-        <div className="mt-6">
-          <p className="text-gray-500 italic">Comments will appear here...</p>
+        <div className="mt-6 space-y-4">
+          {comments.length === 0 && (
+            <p className="text-gray-500 italic">No comments yet.</p>
+          )}
+
+          {comments.map((c) => (
+            <div key={c._id} className="p-3 bg-gray-50 rounded-lg border">
+              <p className="font-semibold">{c.userName}</p>
+              <p className="text-gray-700">{c.comment}</p>
+              <p className="text-xs text-gray-400">
+                {new Date(c.createdAt).toLocaleString()}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
+      {/* Recommended Lessons */}
       <hr className="my-10" />
 
-      {/* Recommended Lessons */}
       <h2 className="text-2xl font-bold mb-4">Recommended Lessons</h2>
-      <p className="text-gray-500">
-        You can show 6 recommended lessons here (based on category/tone)
-      </p>
+
+      {recommended.length === 0 && (
+        <p className="text-gray-500">No recommendations available.</p>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {recommended.map((item) => (
+          <Link to={`/lessons/${item._id}`} key={item._id}>
+            <div className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+              <img
+                src={item.image}
+                alt={item.title}
+                className="h-40 w-full object-cover"
+              />
+
+              <div className="p-4">
+                <h3 className="font-semibold text-lg line-clamp-2">
+                  {item.title}
+                </h3>
+
+                <p className="text-sm text-gray-500 mt-1">
+                  {item.category} • {item.emotionalTone}
+                </p>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

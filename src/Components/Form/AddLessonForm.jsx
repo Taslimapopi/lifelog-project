@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../Utils";
-import useAxios from "../../hooks/useAxious";
+
 import { useMutation } from "@tanstack/react-query";
 import ErrorPage from "../../pages/ErrorPage";
 import { TbFidgetSpinner } from "react-icons/tb";
@@ -84,7 +84,7 @@ const AddLessonForm = () => {
         },
       };
 
-      // await axios.post(`${import.meta.env.VITE_API_URL}/plants`, plantData),
+      
       await mutateAsync(lessonData);
       reset();
     } catch (err) {

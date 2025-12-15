@@ -23,7 +23,7 @@ const MyLessons = () => {
   // Delete mutation
   const { mutateAsync: deleteLesson } = useMutation({
     mutationFn: async (id) => {
-      return await axios.delete(`/lessons/${id}`);
+      return await axiosSecure.delete(`/lessons/${id}`);
     },
     onSuccess: () => {
       Swal.fire("Deleted!", "Lesson has been deleted.", "success");

@@ -44,11 +44,6 @@ const ManageLessons = () => {
     }
   };
 
-  // const markFeatured = async (id) => {
-  //   await axiosSecure.patch(`/lessons/feature/${id}`);
-  //   Swal.fire("Updated!", "Lesson marked as featured!", "success");
-  //   refetch();
-  // };
 
   const markFeatured = async (id) => {
     const res = await axiosSecure.patch(`/lessons/feature/${id}`);
@@ -160,19 +155,7 @@ const ManageLessons = () => {
                   </Link>
                 </td>
                 <td className="p-3 border flex gap-2 justify-center">
-                  {/* {lesson.isFeatured ? (
-                    <button className="px-3 py-1 bg-yellow-300 text-gray-600 rounded btn-xs btn ">
-                      Featured ✓
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => markFeatured(lesson._id)}
-                      className="px-3 py-1 bg-yellow-500 text-white rounded  btn-xs"
-                    >
-                      Feature
-                    </button>
-                  )} */}
-
+                 
                   <button
                     onClick={() => markFeatured(lesson._id)}
                     className={`px-3 py-1 rounded btn-xs text-white ${
