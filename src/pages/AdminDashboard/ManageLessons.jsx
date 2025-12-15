@@ -133,24 +133,30 @@ const ManageLessons = () => {
                   {lesson.isFlagged ? "⚠️ Flagged" : "--"}
                 </td>
                 <td className="p-3 border">
+                  <Link
+                    to={`/dashboard/update-lesson/${lesson._id}`}
+                    className="btn btn-primary btn-xs mr-3  text-black"
+                  >
+                    Update
+                  </Link>
                   <Link to={`/lessons/${lesson._id}`}>
-                    <button className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
-                      DetailsView
+                    <button className="btn bg-blue-400 btn-xs mr-3  text-black hover:bg-blue-700">
+                      Details
                     </button>
                   </Link>
                 </td>
                 <td className="p-3 border flex gap-2 justify-center">
                   {lesson.isFeatured ? (
                     <button
-                      disabled
-                      className="px-3 py-1 bg-yellow-300 text-gray-600 rounded cursor-not-allowed btn "
+                     
+                      className="px-3 py-1 bg-yellow-300 text-gray-600 rounded btn-xs btn "
                     >
                       Featured ✓
                     </button>
                   ) : (
                     <button
                       onClick={() => markFeatured(lesson._id)}
-                      className="px-3 py-1 bg-yellow-500 text-white rounded"
+                      className="px-3 py-1 bg-yellow-500 text-white rounded  btn-xs"
                     >
                       Feature
                     </button>
@@ -159,14 +165,14 @@ const ManageLessons = () => {
                   {lesson.isReviewed ? (
                     <button
                       disabled
-                      className="px-3 py-1 bg-green-300 text-gray-600 rounded cursor-not-allowed btn"
+                      className="px-3 py-1 bg-green-300 text-gray-600 rounded cursor-not-allowed btn btn-xs"
                     >
                       Reviewed ✓
                     </button>
                   ) : (
                     <button
                       onClick={() => markReviewed(lesson._id)}
-                      className="px-3 py-1 bg-green-600 text-white rounded"
+                      className="px-3 py-1 bg-green-600 text-white rounded btn-xs"
                     >
                       Review
                     </button>
@@ -174,7 +180,7 @@ const ManageLessons = () => {
 
                   <button
                     onClick={() => handleDelete(lesson._id)}
-                    className="px-3 py-1 bg-red-600 text-white rounded"
+                    className="px-3 py-1 bg-red-600 text-white rounded btn-xs"
                   >
                     Delete
                   </button>
