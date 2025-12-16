@@ -56,7 +56,7 @@ const FeaturedLessons = () => {
 
                 {/* Full Description */}
                 <p className="text-base text-gray-700 leading-relaxed">
-                  {lesson.description}
+                  {lesson.description.slice(0,150)}...
                 </p>
 
                 <Link
