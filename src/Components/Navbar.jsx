@@ -122,8 +122,8 @@ const Navbar = () => {
             </ul>
           </div>
         ) : (
-          <div>
-            <Link to="/auth/register" className="btn btn-primary mr-3">
+          <div >
+            <Link to="/auth/register" className="btn btn-primary mr-3 hidden md:inline-flex">
               Register
             </Link>
             <Link to="/auth/login" className="btn btn-primary mr-3">

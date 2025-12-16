@@ -20,7 +20,7 @@ const TopContributors = () => {
       <h2 className="text-2xl font-bold mb-6 text-center">
         Top 3 Premium Contributors
       </h2>
-      <div className="flex justify-center gap-6">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-6">
         {data.map((user) => (
           <div
             key={user._id}
