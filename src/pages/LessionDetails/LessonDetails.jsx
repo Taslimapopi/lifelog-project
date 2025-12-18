@@ -237,7 +237,7 @@ const LessonDetails = () => {
       <hr className="my-6" />
 
       {/* Action Buttons */}
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <button
           onClick={toggleLike}
           className="px-5 py-2 bg-red-500 text-white rounded-lg flex items-center gap-2"
