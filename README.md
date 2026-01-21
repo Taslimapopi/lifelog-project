@@ -9,6 +9,10 @@ LifeLog একটি personal growth ও life experience sharing platform, য�
 🔗 Live Site: https://lifelog-6d454.web.app/
 
 ---
+##Screenshot
+<img width="1920" height="4812" alt="screencapture-lifelog-6d454-web-app-2026-01-22-02_12_41" src="https://github.com/user-attachments/assets/9c699169-27ae-4152-9083-afde8c3497b6" />
+
+----
 
 ## 🛠️ Technologies Used
 
