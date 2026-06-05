@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @plugin "daisyui";
 
@@ -7,10 +7,35 @@
   default: true;
   --color-primary: #50E3C2;
   --color-secondary: teal;
+} */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* Light Theme */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #50E3C2;
+  --color-secondary: teal;
 }
 
+/* Dark Theme */
+@plugin "daisyui/theme" {
+  name: "dark";
+  --color-primary: #50E3C2; /* Keeping your primary same */
+  --color-secondary: teal;  /* Keeping your secondary same */
+  --color-accent: oklch(70% 0.25 200);
+  /* DaisyUI will automatically adjust base-100 (background) to dark */
+}
+
+/* ... rest of your CSS */
+
 .active  {
-    background-color: rgb(159, 72, 72);
+    /* background-color: rgb(105, 72, 159); */
+    @apply bg-accent
 }
 
 body {

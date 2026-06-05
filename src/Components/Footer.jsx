@@ -1,5 +1,6 @@
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub } from "react-icons/fa";
 import { Link } from "react-router";
+import logo from "../assets/logo-lifelog.png";
 
 const Footer = () => {
   return (
@@ -7,7 +8,12 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold text-white">LifeLog</h2>
+          <Link to="/">
+            <div className="flex">
+              <img className="w-8 h-8 rounded-full" src={logo} alt="" />
+              <p className="text-xl  text-white ml-1">LifeLog</p>
+            </div>
+          </Link>
           <p className="mt-3 text-sm leading-relaxed">
             Capture life lessons, reflect on experiences, and grow wiser every
             day.
@@ -19,18 +25,23 @@ const Footer = () => {
           <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              
-              <Link to='/' className="hover:text-white cursor-pointer">Home</Link>
+              <Link to="/" className="hover:text-white cursor-pointer">
+                Home
+              </Link>
             </li>
             <li>
-              
-              <Link to='/public-lessons' className="hover:text-white cursor-pointer">Public Lessons</Link>
+              <Link
+                to="/public-lessons"
+                className="hover:text-white cursor-pointer"
+              >
+                Public Lessons
+              </Link>
             </li>
             <li>
-              
-              <Link to='/pricing' className="hover:text-white cursor-pointer">Upgrade</Link>
+              <Link to="/pricing" className="hover:text-white cursor-pointer">
+                Upgrade
+              </Link>
             </li>
-           
           </ul>
         </div>
 

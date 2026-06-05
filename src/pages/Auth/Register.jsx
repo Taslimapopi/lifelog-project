@@ -1,133 +1,149 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
 import { Link, useLocation, useNavigate } from 'react-router';
-
 import axios from 'axios';
-// import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
+
 import SocialLogin from './SocialLogin';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 import useAxios from '../../hooks/useAxious';
 
 const Register = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const { registerUser, updateUserProfile } = useAuth();
-    const location = useLocation();
-    const navigate = useNavigate();
-    const axiosInstance = useAxios()
+  const { register, handleSubmit, formState: { errors } = {} } = useForm();
+  const { registerUser, updateUserProfile } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const axiosInstance = useAxios();
 
+  const handleRegistration = async (data) => {
+    try {
+      const profileImg = data.photo[0];
 
-    const handleRegistration = (data) => {
+      // 🔵 Loading Alert
+      Swal.fire({
+        title: 'Creating account...',
+        text: 'Please wait',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
 
-        const profileImg = data.photo[0];
+      // 1️⃣ Register user
+      await registerUser(data.email, data.password);
 
-        registerUser(data.email, data.password)
-            .then(() => {
+      // 2️⃣ Upload image
+      const formData = new FormData();
+      formData.append('image', profileImg);
 
-                // 1. store the image in form data
-                const formData = new FormData();
-                formData.append('image', profileImg);
+      const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
+      const imgRes = await axios.post(image_API_URL, formData);
+      const photoURL = imgRes.data.data.url;
 
-                // 2. send the photo to store and get the ul
-                const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+      // 3️⃣ Save user to DB
+      const userInfo = {
+        email: data.email,
+        displayName: data.name,
+        photoURL,
+      };
 
-                axios.post(image_API_URL, formData)
-                    .then(res => {
-                        const photoURL = res.data.data.url;
+      await axiosInstance.post('/users', userInfo);
 
-                        // create user in the database
-                        const userInfo = {
-                            email: data.email,
-                            displayName: data.name,
-                            photoURL: photoURL
-                        }
-                        axiosInstance.post('/users', userInfo)
-                            .then(res => {
-                                if (res.data.insertedId) {
-                                    console.log('user created in the database');
-                                }
-                            })
+      // 4️⃣ Update Firebase profile
+      await updateUserProfile({
+        displayName: data.name,
+        photoURL,
+      });
 
+      Swal.close();
 
-                        // update user profile to firebase
-                        const userProfile = {
-                            displayName: data.name,
-                            photoURL: photoURL
-                        }
+      // 🟢 Success Alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Successful',
+        text: 'Welcome to LifeLog 🎉',
+        confirmButtonColor: '#3085d6',
+      });
 
-                        updateUserProfile(userProfile)
-                            .then(() => {
-                                // console.log('user profile updated done.')
-                                navigate(location.state || '/');
-                            })
-                            .catch(error => console.log(error))
-                    })
+      navigate(location.state || '/');
 
+    } catch (error) {
+      Swal.close();
 
-
-            })
-            .catch(error => {
-                console.log(error)
-            })
+      // 🔴 Error Alert
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: error.message || 'Something went wrong!',
+      });
     }
+  };
 
-    return (
-        <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl">
-        <h3 className="text-3xl text-center">Welcome to LifeLog</h3>
-            <p className='text-center'>Please Register</p>
-            <form className="card-body" onSubmit={handleSubmit(handleRegistration)}>
-                <fieldset className="fieldset">
-                    {/* name field */}
-                    <label className="label">Name</label>
-                    <input type="text"
-                        {...register('name', { required: true })}
-                        className="input"
-                        placeholder="Your Name" />
-                    {errors.name?.type === 'required' && <p className='text-red-500'>Name is required.</p>}
+  return (
+    <div className="card bg-base-100 w-full mx-auto max-w-sm shadow-2xl">
+      <h3 className="text-3xl text-center">Welcome to LifeLog</h3>
+      <p className="text-center">Please Register</p>
 
-                    {/* photo image field */}
-                    <label className="label">Photo</label>
+      <form className="card-body" onSubmit={handleSubmit(handleRegistration)}>
+        <fieldset className="fieldset">
 
-                    <input type="file" {...register('photo', { required: true })} className="file-input" placeholder="Your Photo" />
+          {/* Name */}
+          <label className="label">Name</label>
+          <input
+            {...register('name', { required: true })}
+            className="input"
+            placeholder="Your Name"
+          />
+          {errors.name && (
+            Swal.fire('Error', 'Name is required', 'error')
+          )}
 
-                    {errors.name?.type === 'required' && <p className='text-red-500'>Photo is required.</p>}
+          {/* Photo */}
+          <label className="label">Photo</label>
+          <input
+            type="file"
+            {...register('photo', { required: true })}
+            className="file-input"
+          />
 
-                    {/* email field */}
-                    <label className="label">Email</label>
-                    <input type="email" {...register('email', { required: true })} className="input" placeholder="Email" />
-                    {errors.email?.type === 'required' && <p className='text-red-500'>Email is required.</p>}
+          {/* Email */}
+          <label className="label">Email</label>
+          <input
+            type="email"
+            {...register('email', { required: true })}
+            className="input"
+            placeholder="Email"
+          />
 
-                    {/* password */}
-                    <label className="label">Password</label>
-                    <input type="password" {...register('password', {
-                        required: true,
-                        minLength: 6,
-                        pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/
-                    })} className="input" placeholder="Password" />
-                    {
-                        errors.password?.type === 'required' && <p className='text-red-500'>Password is required.</p>
-                    }
-                    {
-                        errors.password?.type === 'minLength' && <p className='text-red-500'>
-                            Password must be 6 characters or longer
-                        </p>
-                    }
-                    {
-                        errors.password?.type === 'pattern' && <p className='text-red-500'>Password must have at least one uppercase, at least one lowercase, at least one number, and at least one special characters</p>
-                    }
+          {/* Password */}
+          <label className="label">Password</label>
+          <input
+            type="password"
+            {...register('password', {
+              required: true,
+              minLength: 6,
+              pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
+            })}
+            className="input"
+            placeholder="Password"
+          />
 
-                    <div><a className="link link-hover">Forgot password?</a></div>
-                    <button className="btn btn-neutral mt-4">Register</button>
-                </fieldset>
-                <p>Already have an account <Link
-                    state={location.state}
-                    className='text-blue-400 underline'
-                    to="/login">Login</Link></p>
-            </form>
-            <SocialLogin></SocialLogin>
-        </div>
-    );
+          <button className="btn btn-neutral mt-4">Register</button>
+        </fieldset>
+
+        <p className="text-center">
+          Already have an account?{" "}
+          <Link
+            to="/auth/login"
+            state={location.state}
+            className="text-blue-400 underline"
+          >
+            Login
+          </Link>
+        </p>
+      </form>
+
+      <SocialLogin />
+    </div>
+  );
 };
 
 export default Register;

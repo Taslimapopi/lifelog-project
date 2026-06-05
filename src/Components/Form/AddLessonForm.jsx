@@ -1,307 +1,197 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../Utils";
-
 import { useMutation } from "@tanstack/react-query";
 import ErrorPage from "../../pages/ErrorPage";
-import { TbFidgetSpinner } from "react-icons/tb";
+import { TbFidgetSpinner, TbPhotoPlus } from "react-icons/tb";
 import LoadingSpinner from "../../pages/LoadingSpinner";
-
 import Lottie from "lottie-react";
 import successAnimation from "../../assets/SuccessLottie.json";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddLessonForm = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
+  const [preview, setPreview] = useState(null);
 
-  // useMutation hook useCase
-
-  const {
-    isPending,
-    isError,
-    mutateAsync,
-    reset: mutationReset,
-  } = useMutation({
+  const { isPending, isError, mutateAsync, reset: mutationReset } = useMutation({
     mutationFn: async (payload) => await axiosSecure.post("/lessons", payload),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       setShowSuccessAnimation(true);
-      mutationReset();
-      setTimeout(() => {
-        setShowSuccessAnimation(false);
-      }, 3000);
+      setPreview(null);
+      setTimeout(() => setShowSuccessAnimation(false), 3000);
     },
-    onError: (error) => {
-      console.log(error);
-    },
-    onMutate: (payload) => {
-      console.log("I will post this data--->", payload);
-    },
-    onSettled: (data, error) => {
-      console.log("I am from onSettled--->", data);
-      if (error) console.log(error);
-    },
-    retry: 3,
   });
 
-  // React Hook Form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
+  
+  // Watch image field to create a local preview URL
+  const selectedImage = watch("image");
+  useEffect(() => {
+    if (selectedImage && selectedImage.length > 0) {
+      const file = selectedImage[0];
+      setPreview(URL.createObjectURL(file));
+    }
+  }, [selectedImage]);
 
   const onSubmit = async (data) => {
-    const {
-      title,
-      category,
-      emotionalTone,
-      privacy,
-      description,
-      image,
-      accessLevel,
-    } = data;
-    const imageFile = image[0];
-
+    const imageFile = data.image[0];
     try {
       const imageUrl = await imageUpload(imageFile);
       const lessonData = {
+        ...data,
         image: imageUrl,
-        title,
-        category,
-        emotionalTone,
-        privacy,
-        accessLevel,
-        description,
         author: {
           name: user?.displayName,
           email: user?.email,
           image: user?.photoURL,
         },
       };
-
-      
       await mutateAsync(lessonData);
       reset();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
-  if (isPending) return <LoadingSpinner></LoadingSpinner>;
+
+  if (isPending) return <LoadingSpinner />;
   if (isError) return <ErrorPage />;
 
   return (
-    <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
+    <div className="min-h-screen py-12 flex items-center justify-center bg-base-200 px-4 transition-colors duration-300">
+      {/* Success Modal */}
       {showSuccessAnimation && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="w-64 h-64 bg-white rounded-lg p-4 shadow-lg flex flex-col justify-center items-center">
-          <Lottie animationData={successAnimation} loop={false} />
-          <p className="mt-4 text-green-600 font-semibold">Lesson added successfully!</p>
-        </div>
-      </div>
-    )}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="space-y-6">
-            {/* Title */}
-            <div className="space-y-1 text-sm">
-              <label htmlFor="title" className="block text-gray-600">
-                Name
-              </label>
-              <input
-                className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                name="name"
-                id="name"
-                type="text"
-                placeholder="Lesson Title"
-                {...register("title", {
-                  required: "Title is required",
-                  maxLength: {
-                    value: 100,
-                    message: "title cannot be too long",
-                  },
-                })}
-                required
-              />
-            </div>
-            {/* Category */}
-            <div className="space-y-1 text-sm">
-              <label htmlFor="category" className="block text-gray-600 ">
-                Category
-              </label>
-              <select
-                required
-                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                name="category"
-                {...register("category", { required: "Category is required" })}
-              >
-                <option value="Personal Growth">Personal Growth</option>
-                <option value="Career"> Career</option>
-                <option value="Relationships">Relationships</option>
-                <option value="Mistakes Learned">Mistakes Learned</option>
-              </select>
-            </div>
-            {/* Emotional Tone */}
-            <div className="space-y-1 text-sm">
-              <label htmlFor="category" className="block text-gray-600 ">
-                Emotional Tone
-              </label>
-              <select
-                required
-                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                name="Emotional Tone"
-                {...register("emotionalTone", {
-                  required: "Emotional Tone is required",
-                })}
-              >
-                <option value="Motivational">Motivational</option>
-                <option value="Sad">Sad</option>
-                <option value="Realization">Realization</option>
-                <option value="Gratitude">Gratitude</option>
-              </select>
-            </div>
-            {/* Privacy */}
-            <div className="space-y-1 text-sm">
-              <label htmlFor="category" className="block text-gray-600 ">
-                Privacy
-              </label>
-              <select
-                required
-                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                name="Privacy"
-                {...register("privacy", { required: "Privacy is required" })}
-              >
-                <option value="Public">Public</option>
-                <option value="Private">Private</option>
-              </select>
-              {errors.privacy && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.privacy.message}
-                </p>
-              )}
-            </div>
-            {/* Access Level */}
-            <div className="space-y-1 text-sm">
-              <label htmlFor="category" className="block text-gray-600 ">
-                Access Level
-              </label>
-              <select
-                required
-                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                name="accessLevel"
-                {...register("accessLevel", {
-                  required: "Access Level is required",
-                })}
-              >
-                <option value="free">Free</option>
-                <option value="premium">Premium</option>
-              </select>
-              {errors.accessLevel && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.accessLevel.message}
-                </p>
-              )}
-            </div>
-            {/* Description */}
-            <div className="space-y-1 text-sm">
-              <label htmlFor="description" className="block text-gray-600">
-                Description
-              </label>
-
-              <textarea
-                id="description"
-                placeholder="Write Lesson description here..."
-                className="block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-lime-300 bg-white focus:outline-lime-500 "
-                name="description"
-                {...register("description", {
-                  required: "Description is required",
-                })}
-              ></textarea>
-            </div>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-base-100 w-80 rounded-2xl p-8 shadow-2xl text-center border border-success/20">
+            <Lottie animationData={successAnimation} loop={false} className="h-40" />
+            <h3 className="text-xl font-bold mt-2">Awesome!</h3>
+            <p className="text-base-content/70">Lesson added successfully.</p>
           </div>
-          <div className="space-y-6 flex flex-col">
-            {/* Price & Quantity */}
-            <div className="flex justify-between gap-2">
-              {/* Price */}
-              {/* <div className='space-y-1 text-sm'>
-                <label htmlFor='price' className='block text-gray-600 '>
-                  Price
-                </label>
-                <input
-                  className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                  name='price'
-                  id='price'
-                  type='number'
-                  placeholder='Price per unit'
-                  required
-                />
-              </div> */}
+        </div>
+      )}
 
-              {/* Quantity */}
-              {/* <div className='space-y-1 text-sm'>
-                <label htmlFor='quantity' className='block text-gray-600'>
-                  Quantity
-                </label>
+      <div className="w-full max-w-5xl bg-base-100 rounded-3xl shadow-xl border border-base-300 overflow-hidden">
+        <div className="bg-primary p-6 text-black">
+          <h2 className="text-3xl font-bold">Add New Lesson</h2>
+          <p className="opacity-80">Share your wisdom and experience with the world.</p>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="p-8 lg:p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            
+            {/* LEFT COLUMN */}
+            <div className="space-y-6">
+              {/* Title Field */}
+              <div className="form-control w-full">
+                <label className="label font-semibold">Lesson Title</label>
                 <input
-                  className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                  name='quantity'
-                  id='quantity'
-                  type='number'
-                  placeholder='Available quantity'
-                  required
+                  type="text"
+                  placeholder="e.g. How to overcome failure"
+                  className={`input input-bordered w-full focus:input-primary ${errors.title && 'input-error'}`}
+                  {...register("title", { required: "Title is essential" })}
                 />
-              </div> */}
-            </div>
-            {/* Image */}
-            <div className=" p-4  w-full  m-auto rounded-lg grow">
-              <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
-                <div className="flex flex-col w-max mx-auto text-center">
-                  <label>
-                    <input
-                      className="text-sm cursor-pointer w-36 hidden"
-                      type="file"
-                      name="image"
-                      id="image"
-                      accept="image/*"
-                      hidden
-                      {...register("image", {
-                        required: "Image is required",
-                      })}
-                    />
-                    <div className="bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500">
-                      Upload
-                    </div>
-                  </label>
+                {errors.title && <span className="text-error text-xs mt-1">{errors.title.message}</span>}
+              </div>
+
+              {/* Grid for Selects */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="form-control">
+                  <label className="label font-semibold text-xs uppercase opacity-70">Category</label>
+                  <select className="select select-bordered" {...register("category", { required: true })}>
+                    <option value="Personal Growth">Personal Growth</option>
+                    <option value="Career">Career</option>
+                    <option value="Relationships">Relationships</option>
+                    <option value="Mistakes Learned">Mistakes Learned</option>
+                  </select>
                 </div>
+                <div className="form-control">
+                  <label className="label font-semibold text-xs uppercase opacity-70">Emotional Tone</label>
+                  <select className="select select-bordered" {...register("emotionalTone", { required: true })}>
+                    <option value="Motivational">Motivational</option>
+                    <option value="Sad">Sad</option>
+                    <option value="Realization">Realization</option>
+                    <option value="Gratitude">Gratitude</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="form-control">
+                  <label className="label font-semibold text-xs uppercase opacity-70">Privacy</label>
+                  <select className="select select-bordered" {...register("privacy", { required: true })}>
+                    <option value="Public">Public</option>
+                    <option value="Private">Private</option>
+                  </select>
+                </div>
+                <div className="form-control">
+                  <label className="label font-semibold text-xs uppercase opacity-70">Access</label>
+                  <select className="select select-bordered" {...register("accessLevel", { required: true })}>
+                    <option value="free">Free</option>
+                    <option value="premium">Premium</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="form-control">
+                <label className="label font-semibold">Detailed Description</label>
+                <textarea
+                  rows="4"
+                  className={`textarea textarea-bordered h-32 ${errors.description && 'textarea-error'}`}
+                  placeholder="Share the core lesson here..."
+                  {...register("description", { required: "Description cannot be empty" })}
+                ></textarea>
+                {errors.description && <span className="text-error text-xs mt-1">{errors.description.message}</span>}
               </div>
             </div>
 
-            {/* Submit Button */}
+            {/* RIGHT COLUMN */}
+            <div className="flex flex-col gap-6">
+              {/* Image Upload Area */}
+              <div className="form-control h-full">
+                <label className="label font-semibold">Lesson Cover Image</label>
+                <div className={`relative group h-full min-h-[300px] border-2 border-dashed rounded-2xl flex flex-col items-center justify-center transition-all ${preview ? 'border-primary' : 'border-base-300 hover:border-primary bg-base-200/50'}`}>
+                  {preview ? (
+                    <div className="relative w-full h-full p-2">
+                      <img src={preview} alt="Preview" className="w-full h-full object-cover rounded-xl" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-xl">
+                        <p className="text-white font-medium">Change Image</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center p-6">
+                      <TbPhotoPlus className="text-5xl mx-auto mb-4 opacity-20" />
+                      <p className="text-sm font-medium">Drag and drop or click to upload</p>
+                      <p className="text-xs opacity-50 mt-1">PNG, JPG up to 10MB</p>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    accept="image/*"
+                    {...register("image", { required: "Please upload a cover image" })}
+                  />
+                </div>
+                {errors.image && <span className="text-error text-xs mt-2">{errors.image.message}</span>}
+              </div>
 
-            {/* <button
-              type="submit"
-              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 "
-            >
-              Save & Continue
-            </button> */}
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 "
-            >
-              {isPending ? (
-                <TbFidgetSpinner className="animate-spin m-auto" />
-              ) : (
-                "Save & Continue"
-              )}
-            </button>
+              <button
+                type="submit"
+                disabled={isPending}
+                className="btn btn-primary btn-lg w-full shadow-lg shadow-primary/20"
+              >
+                {isPending ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Publish Lesson"
+                )}
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

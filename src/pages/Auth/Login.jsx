@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../hooks/useAuth";
-
+import Swal from "sweetalert2";
 
 const Login = () => {
   const {
@@ -24,7 +24,32 @@ const Login = () => {
         navigate(location?.state || "/");
       })
       .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Login failed",
+          text: error.message || "Something went wrong!",
+        });
         console.log(error);
+      });
+  };
+
+  const handleDemoAdminLogin = () => {
+    signInUser("lablu1@gmail.com", "12345678aA@")
+      .then((result) => {
+        Swal.fire({
+          icon: "success",
+          title: "Demo Admin Login Successful",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        navigate(location?.state || "/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Demo Admin Login Failed",
+          text: error.message || "Something went wrong!",
+        });
       });
   };
 
@@ -63,7 +88,14 @@ const Login = () => {
           <div>
             <a className="link link-hover">Forgot password?</a>
           </div>
-          <button className="btn btn-neutral mt-4">Login</button>
+          <button className="btn btn-secondary mt-4 hover:bg-teal-300">Login</button>
+          <button
+        type="button"
+        onClick={handleDemoAdminLogin}
+        className="btn  btn-primary mt-2 hover:bg-blue-500"
+      >
+        Login as Demo Admin
+      </button>
         </fieldset>
         <p className="text-center">
           New to Life Log{" "}
@@ -76,6 +108,8 @@ const Login = () => {
           </Link>
         </p>
       </form>
+      
+
       <SocialLogin></SocialLogin>
     </div>
   );

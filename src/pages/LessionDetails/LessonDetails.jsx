@@ -13,9 +13,10 @@ import {
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxious";
 import ReportLesson from "../../Components/Form/Home/ReportLesson";
+import AISummaryModal from "../../Components/shared/AISummaryModal";
 
 const LessonDetails = () => {
-  const { user } = useAuth();
+  const {loading, user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosInstance = useAxios();
@@ -53,11 +54,13 @@ const LessonDetails = () => {
   } = lesson;
 
   useEffect(() => {
-    axiosInstance.get(`/users/email/${user?.email}`).then((res) => {
-      setCurrentUser(res.data);
-      console.log(res.data);
-    });
-  }, [axiosInstance, user]);
+    if(!user || loading) return
+    const res = axiosInstance.get(`/users/email/${user?.email}`)
+    console.log(res.data)
+    
+  }, [axiosInstance, user,loading]);
+
+  console.log(user)
 
   useEffect(() => {
   if (!author?.email) return;
@@ -237,7 +240,7 @@ const LessonDetails = () => {
       <hr className="my-6" />
 
       {/* Action Buttons */}
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4 flex-wrap items-center">
         <button
           onClick={toggleLike}
           className="px-5 py-2 bg-red-500 text-white rounded-lg flex items-center gap-2"
@@ -252,9 +255,10 @@ const LessonDetails = () => {
           {isFavorited ? <FaBookmark /> : <FaRegBookmark />} Favorite
         </button>
 
-        <div className="flex flex-col gap-2">
-          {/* Existing Like and Favorite buttons */}
+        {/* ✨ AI Summary Button */}
+        <AISummaryModal lesson={lesson} comments={comments} />
 
+        <div className="flex flex-col gap-2">
           {/* Report section */}
           <ReportLesson lessonId={lesson._id} userEmail={user?.email} />
         </div>

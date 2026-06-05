@@ -125,7 +125,7 @@ const LessonCard = ({ lesson }) => {
           ${
             isPremium && !isUserPremium
               ? "bg-red-500 hover:bg-red-600"
-              : "bg-blue-600 hover:bg-blue-700"
+              : "bg-primary hover:bg-blue-700"
           }
         `}
         >
