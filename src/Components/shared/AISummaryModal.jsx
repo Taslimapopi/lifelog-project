@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AISummaryModal = ({ lesson, comments }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState(null);
   const [error, setError] = useState(null);
+  const axiosInstance = useAxiosSecure()
 
   const handleGenerateSummary = async () => {
     setIsOpen(true);
@@ -14,8 +16,9 @@ const AISummaryModal = ({ lesson, comments }) => {
     setError(null);
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/ai-summary`,
+      const res = await axiosInstance.post(
+      '/ai-summary',
+        // `${import.meta.env.VITE_API_URL}/ai-summary`,
         {
           title: lesson.title,
           description: lesson.description,
