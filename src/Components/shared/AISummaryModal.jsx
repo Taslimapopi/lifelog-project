@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+
+
+import useAxios from "../../hooks/useAxious";
 
 const AISummaryModal = ({ lesson, comments }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState(null);
   const [error, setError] = useState(null);
-  const axiosInstance = useAxiosSecure()
+  const axiosInstance = useAxios()
 
   const handleGenerateSummary = async () => {
     setIsOpen(true);
@@ -29,7 +30,7 @@ const AISummaryModal = ({ lesson, comments }) => {
       );
       setSummary(res.data.summary);
     } catch (err) {
-      setError("AI Summary তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      setError("There was a problem generating the AI summary. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -111,7 +112,7 @@ const AISummaryModal = ({ lesson, comments }) => {
                   <div className="ai-error-icon">⚠️</div>
                   <p className="ai-error-text">{error}</p>
                   <button className="ai-retry-btn" onClick={handleRetry}>
-                    🔄 আবার চেষ্টা করুন
+                    🔄 Try again
                   </button>
                 </div>
               )}
