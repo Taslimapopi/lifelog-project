@@ -118,8 +118,45 @@ const Navbar = () => {
     </>
   );
 
+  // Navbar.jsx এ <style> tag এ যোগ করুন
+<style>{`
+  .glass-navbar {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(var(--color-secondary-rgb), 0.92) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .dropdown-glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(15, 23, 42, 0.92) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+  }
+
+  .dropdown-glass li a,
+  .dropdown-glass li button {
+    color: rgba(255,255,255,0.75) !important;
+  }
+
+  .dropdown-glass li a:hover,
+  .dropdown-glass li button:hover {
+    background: rgba(255,255,255,0.08) !important;
+    color: white !important;
+  }
+
+  .avatar-glow {
+    transition: box-shadow 0.2s ease;
+  }
+
+  .avatar-glow:hover {
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+  }
+`}</style>
+
   return (
-    <div className="navbar bg-secondary/95 backdrop-blur-md shadow-lg sticky top-0 z-50 w-full px-4 md:px-8 border-b border-white/10">
+    
+    <div className="navbar bg-secondary/95 shadow-lg sticky top-0 z-50 w-full px-4 md:px-8 glass-navbar rounded-xl">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden text-white">
@@ -178,13 +215,13 @@ const Navbar = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar border border-white/20 hover:border-primary transition duration-300"
             >
-              <div className="w-9 rounded-full">
+              <div className="w-9 rounded-full avatar-glow">
                 <img alt="User Avatar" src={user.photoURL} />
               </div>
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-3 shadow-2xl border border-base-200 text-base-content gap-1"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-3 shadow-2xl border border-base-200 text-base-content gap-1 "
             >
               <li className="px-3 py-2 font-bold border-b border-base-200 text-sm">{user.displayName}</li>
               <li>
