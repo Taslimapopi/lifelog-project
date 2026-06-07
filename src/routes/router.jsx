@@ -27,6 +27,7 @@ import AdminProfile from "../pages/AdminDashboard/AdminProfile";
 import DashboardHome from "../pages/DashboardHome/DashboardHome";
 import AdminRoute from "./AdminRoute";
 import UpdateProfile from "../pages/Dashboard/UpdateProfile";
+import AdminChat from "../pages/AdminDashboard/AdminChat";
 
 export const router = createBrowserRouter([
   {
@@ -141,6 +142,14 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <ReportedLessons></ReportedLessons>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/admin-chat",
+        element: (
+          <AdminRoute>
+            <AdminChat></AdminChat>
           </AdminRoute>
         ),
       },

@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  MdChat,
   MdManageAccounts,
   MdManageSearch,
   MdOutlineFavorite,
@@ -47,13 +48,7 @@ const DashboardLayout = () => {
           </label>
           <div className="px-4 text-white">Life-Log Dashboard</div>
         </nav>
-        {/* Page content here */}
-        {/* {role === "admin" &&
-        <>
-        <AdminDashboard></AdminDashboard>
-         </>
-         
-         } */}
+        
 
          <Outlet></Outlet>
         
@@ -98,17 +93,7 @@ const DashboardLayout = () => {
               </Link>
             </li>
             {/* my links */}
-            {/* <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
-                data-tip="Profile"
-                to="/dashboard/profile"
-              >
-                {" "}
-                <FaProductHunt />
-                <span className="is-drawer-close:hidden">My Profile</span>
-              </NavLink>
-            </li> */}
+            
 
             {role === "user" && (
               <>
@@ -180,6 +165,20 @@ const DashboardLayout = () => {
                     </span>
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-white"
+                    data-tip="support chat"
+                    to="/dashboard/admin/admin-chat"
+                  >
+                    {" "}
+                    <MdChat />
+                    <span className="is-drawer-close:hidden">
+                      support chat
+                    </span>
+                  </NavLink>
+                </li>
+                
               </>
             )}
           </ul>

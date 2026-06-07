@@ -8,6 +8,7 @@ import LifeLogFAQ from "../../Components/Form/Home/LifeLogFAQ";
 import HomepageStats from './HomepageStats';
 import PricingPlans from '../../Components/Form/Home/PricingPlans';
 import InteractiveMoodFinder from '../../Components/Form/Home/InteractiveMoodFinder';
+import QuoteOfTheDay from './QuoteOfTheDay';
 
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
             <SimpleImageSlider></SimpleImageSlider>
             
             <FeaturedLessons></FeaturedLessons>
+            <QuoteOfTheDay></QuoteOfTheDay>
             <InteractiveMoodFinder></InteractiveMoodFinder>
             <WhyLearningMatters></WhyLearningMatters>
             <TopContributors></TopContributors>
