@@ -9,7 +9,7 @@ export default function QuoteOfTheDay() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/quotes-all")
+      .get("https://lifelog-server.vercel.app/quotes-all")
       .then((res) => setQuotes(res.data))
       .catch((err) => console.error(err));
   }, []);

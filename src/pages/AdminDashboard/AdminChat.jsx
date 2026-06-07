@@ -18,7 +18,7 @@ export default function AdminChat() {
   useEffect(() => {
     socket.emit("join_room", ADMIN_EMAIL);
 
-    // সব user list load
+    // all user list load
     fetch("http://localhost:3000/chats/users/all")
       .then(r => r.json())
       .then(setUsers);
