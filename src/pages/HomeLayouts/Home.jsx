@@ -22,11 +22,12 @@ const Home = () => {
             <QuoteOfTheDay></QuoteOfTheDay>
             <InteractiveMoodFinder></InteractiveMoodFinder>
             <WhyLearningMatters></WhyLearningMatters>
-            <TopContributors></TopContributors>
+            
             <HomepageStats></HomepageStats>
             <PricingPlans></PricingPlans>
             <LifeLogFAQ></LifeLogFAQ>
-            {/* <Lessons></Lessons> */}
+            <TopContributors></TopContributors>
+            
            
         </div>
     );
