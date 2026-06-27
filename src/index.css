@@ -43,3 +43,23 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-bg {
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #134e4a,
+    #0d3d38,
+    #1a1a2e,
+    #0f2027
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+}

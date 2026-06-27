@@ -16,14 +16,42 @@ import ReportLesson from "../../Components/Form/Home/ReportLesson";
 import AISummaryModal from "../../Components/shared/AISummaryModal";
 
 const LessonDetails = () => {
-  const {loading, user } = useAuth();
+  const { loading, user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosInstance = useAxios();
   const [currentUser, setCurrentUser] = useState(null);
   const [commentText, setCommentText] = useState("");
   const [authorLessonCount, setAuthorLessonCount] = useState(0);
+  const [aiSummary, setAiSummary] = useState("");
+  const [summaryLoading, setSummaryLoading] = useState(false);
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
 
+  const handleGenerateSummary = async () => {
+    try {
+      setSummaryLoading(true);
+      const {
+        title,
+        description,
+        category,
+        emotionalTone,
+        // ...
+      } = lesson;
+
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/generate-summary`,
+      { lesson: description }
+    );
+      console.log(data);
+
+      setAiSummary(data.summary);
+      setShowSummaryModal(true);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSummaryLoading(false);
+    }
+  };
 
   const {
     data: lesson = {},
@@ -33,7 +61,7 @@ const LessonDetails = () => {
     queryKey: ["lesson", id],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/lessons/${id}`
+        `${import.meta.env.VITE_API_URL}/lessons/${id}`,
       );
       return res.data;
     },
@@ -54,25 +82,22 @@ const LessonDetails = () => {
   } = lesson;
 
   useEffect(() => {
-    if(!user || loading) return
-    const res = axiosInstance.get(`/users/email/${user?.email}`)
-    console.log(res.data)
-    
-  }, [axiosInstance, user,loading]);
+    if (!user || loading) return;
+    const res = axiosInstance.get(`/users/email/${user?.email}`);
+    console.log(res.data);
+  }, [axiosInstance, user, loading]);
 
-  console.log(user)
+  console.log(user);
 
   useEffect(() => {
-  if (!author?.email) return;
+    if (!author?.email) return;
 
-  axios.get(
-    `${import.meta.env.VITE_API_URL}/lessons/count/${author.email}`
-  )
-  .then(res => {
-    setAuthorLessonCount(res.data.count);
-  });
-}, [author]);
-
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/lessons/count/${author.email}`)
+      .then((res) => {
+        setAuthorLessonCount(res.data.count);
+      });
+  }, [author]);
 
   const isPremium = accessLevel === "premium";
   const isUserPremium = currentUser?.isUserPremium === true;
@@ -106,7 +131,7 @@ const LessonDetails = () => {
       `${import.meta.env.VITE_API_URL}/lessons/${id}/toggleLike`,
       {
         userId: currentUser._id,
-      }
+      },
     );
 
     refetch();
@@ -120,7 +145,7 @@ const LessonDetails = () => {
       `${import.meta.env.VITE_API_URL}/lessons/${id}/toggleFavorite`,
       {
         userId: currentUser._id,
-      }
+      },
     );
 
     refetch();
@@ -129,7 +154,7 @@ const LessonDetails = () => {
   // Safe check
   const isLiked = likes?.some((uid) => String(uid) === String(user?._id));
   const isFavorited = favorites?.some(
-    (uid) => String(uid) === String(user?._id)
+    (uid) => String(uid) === String(user?._id),
   );
 
   // comment fetch api
@@ -138,7 +163,7 @@ const LessonDetails = () => {
     queryKey: ["comments", id],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/lessons/${id}/comments`
+        `${import.meta.env.VITE_API_URL}/lessons/${id}/comments`,
       );
       return res.data;
     },
@@ -165,16 +190,13 @@ const LessonDetails = () => {
     enabled: !!lesson?._id,
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/lessons/recommended/${id}`
+        `${import.meta.env.VITE_API_URL}/lessons/recommended/${id}`,
       );
       return res.data;
     },
   });
 
   // author lesson count
-
- 
-
 
   return (
     <div className="max-w-5xl mx-auto py-10 px-6">
@@ -184,10 +206,8 @@ const LessonDetails = () => {
         alt={title}
         className="w-full h-72 object-cover rounded-xl shadow"
       />
-
       {/* Title */}
       <h1 className="text-3xl font-bold mt-6">{title}</h1>
-
       {/* Metadata */}
       <div className="mt-3 text-gray-500 text-sm flex flex-col gap-1">
         <p>Category: {category}</p>
@@ -196,12 +216,9 @@ const LessonDetails = () => {
         <p>Updated: {new Date(updatedAt).toLocaleDateString()}</p>
         <p>Visibility: Public</p>
       </div>
-
       <hr className="my-6" />
-
       {/* Description */}
       <div className="text-lg leading-relaxed text-gray-700">{description}</div>
-
       <hr className="my-6" />
 
       {/* Author Card */}
@@ -224,21 +241,14 @@ const LessonDetails = () => {
           </Link>
         </div>
       </div>
-
- 
-
-
       <hr className="my-6" />
-
       {/* Stats */}
       <div className="flex gap-6 text-lg font-semibold">
         <p>❤️ {likes.length} Likes</p>
         <p>🔖 {favorites.length} Favorites</p>
         <p>👀 {Math.floor(Math.random() * 10000)} Views</p>
       </div>
-
       <hr className="my-6" />
-
       {/* Action Buttons */}
       <div className="flex flex-col md:flex-row gap-4 flex-wrap items-center">
         <button
@@ -256,16 +266,20 @@ const LessonDetails = () => {
         </button>
 
         {/* ✨ AI Summary Button */}
-        <AISummaryModal lesson={lesson} comments={comments} />
+        <button onClick={handleGenerateSummary} className="btn btn-primary">
+          {summaryLoading ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : (
+            "✨ Generate Summary"
+          )}
+        </button>
 
         <div className="flex flex-col gap-2">
           {/* Report section */}
           <ReportLesson lessonId={lesson._id} userEmail={user?.email} />
         </div>
       </div>
-
       <hr className="my-6" />
-
       {/* Comments */}
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-2">Comments</h2>
@@ -300,16 +314,12 @@ const LessonDetails = () => {
           ))}
         </div>
       </div>
-
       {/* Recommended Lessons */}
       <hr className="my-10" />
-
       <h2 className="text-2xl font-bold mb-4">Recommended Lessons</h2>
-
       {recommended.length === 0 && (
         <p className="text-gray-500">No recommendations available.</p>
       )}
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {recommended.map((item) => (
           <Link to={`/lessons/${item._id}`} key={item._id}>
@@ -333,6 +343,17 @@ const LessonDetails = () => {
           </Link>
         ))}
       </div>
+      {/* ✅ Modal এখানে বসাও — একদম শেষে */}
+      <AISummaryModal
+        summary={aiSummary}
+        onClose={() => 
+          {setShowSummaryModal(false)
+            setAiSummary("")
+          }
+          
+        }
+        
+      />
     </div>
   );
 };
