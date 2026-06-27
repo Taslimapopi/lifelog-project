@@ -10,9 +10,7 @@ const axiosSecure = axios.create({
     
 })
 
-// const axiosSecure = axios.create({
-//     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001'
-// })
+
 
 const useAxiosSecure = () => {
     const { user, logOut } = useAuth();
