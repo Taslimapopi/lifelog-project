@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useConversations from "../../hooks/useConversations";
+import AdminMessagePanel from "../../Components/chat/AdminMessagePanel";
 
 const AdminChat = () => {
   const { data: conversations = [] } = useConversations();
@@ -22,7 +23,9 @@ const AdminChat = () => {
 
       <div className="col-span-8">
         {selectedConversation ? (
-          <h2>{selectedConversation.name}</h2>
+          <AdminMessagePanel
+      conversation={selectedConversation}
+    />
         ) : (
           <div className="flex h-full items-center justify-center">
             Select a conversation

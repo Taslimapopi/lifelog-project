@@ -2,19 +2,25 @@ import { useState } from "react";
 import useSendMessage from "../../hooks/useSendMessage";
 import useAuth from "../../hooks/useAuth";
 
-const MessageInput = ({ conversationId }) => {
+const MessageInput = ({ conversationId, senderRole }) => {
   const [text, setText] = useState("");
   const { mutateAsync, isPending } = useSendMessage();
   const { user } = useAuth();
 
   const handleSend = async () => {
     if (!text.trim()) return;
+    console.log({
+      conversationId,
+      senderId: user?._id,
+      senderRole,
+      text,
+    });
 
     try {
       await mutateAsync({
         conversationId,
         senderId: user.uid,
-        senderRole: "user",
+        senderRole,
         text,
       });
 

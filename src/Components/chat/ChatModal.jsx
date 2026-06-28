@@ -53,7 +53,7 @@ const ChatModal = ({ isChatOpen, setIsChatOpen }) => {
 
         <MessageList conversationId={conversationId} />
 
-        <MessageInput conversationId={conversationId} />
+        <MessageInput conversationId={conversationId} senderRole="user" />
       </div>
     </div>
   );

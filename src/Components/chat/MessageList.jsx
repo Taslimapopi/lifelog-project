@@ -23,6 +23,7 @@ const MessageList = ({ conversationId }) => {
         <MessageBubble
           key={message._id}
           message={message}
+          currentRole="user"
         />
       ))}
 
