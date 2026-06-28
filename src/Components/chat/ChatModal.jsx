@@ -48,7 +48,24 @@ const ChatModal = ({ isChatOpen, setIsChatOpen }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-end bg-black/40">
-      <div className="m-6 flex h-[400px] w-[380px] flex-col overflow-hidden rounded-xl bg-white shadow-2xl">
+      <div  className="
+    absolute
+    bottom-4
+    right-4
+
+    h-[70vh]
+    w-[calc(100vw-2rem)]
+
+    max-w-[380px]
+    max-h-[650px]
+
+    flex
+    flex-col
+    overflow-hidden
+    rounded-2xl
+    bg-white
+    shadow-2xl
+  ">
         <ChatHeader setIsChatOpen={setIsChatOpen} />
 
         <MessageList conversationId={conversationId} />

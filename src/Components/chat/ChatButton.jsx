@@ -1,9 +1,34 @@
 import { MessageCircle } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+
 
 const ChatButton = ({ setIsChatOpen }) => {
+  const { user } = useAuth();
+const navigate = useNavigate();
+
+const handleChatClick = () => {
+  if (!user) {
+    Swal.fire({
+      icon: "warning",
+      title: "Login Required",
+      text: "Please login to chat with the admin.",
+      confirmButtonText: "Go to Login",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/auth/login");
+      }
+    });
+
+    return;
+  }
+
+  setIsChatOpen(true);
+};
   return (
     <button
-      onClick={() => setIsChatOpen(true)}
+      onClick={handleChatClick}
       className="
       fixed
       bottom-6

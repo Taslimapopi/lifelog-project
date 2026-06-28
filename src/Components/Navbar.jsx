@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import logo from "../assets/logo-lifelog.png";
 import useAxios from "../hooks/useAxious";
@@ -8,12 +8,21 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
   const axiosInstance = useAxios();
   const [currentUser, setCurrentUser] = useState(null);
+    const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance.get(`/users/email/${user?.email}`).then((res) => {
       setCurrentUser(res.data);
     });
   }, [axiosInstance, user]);
+
+
+
+const handleLogout = () => {
+  logOut().then(() => {
+    navigate('/');  // বা '/login'
+  });
+};
 
   // 1. Theme State
   const [theme, setTheme] = useState(
@@ -118,7 +127,7 @@ const Navbar = () => {
     </>
   );
 
-  // Navbar.jsx এ <style> tag এ যোগ করুন
+  
 <style>{`
   .glass-navbar {
     backdrop-filter: blur(16px);
@@ -184,7 +193,7 @@ const Navbar = () => {
         </div>
         
         <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition">
-          <img className="w-9 h-9 rounded-full border border-white/20 shadow-md" src={logo} alt="LifeLog Logo" />
+          <img className="hidden sm:block w-9 h-9 rounded-full border border-white/20 shadow-md" src={logo} alt="LifeLog Logo" />
           <span className="font-black text-2xl tracking-tight text-white">LifeLog</span>
         </Link>
       </div>
@@ -193,7 +202,7 @@ const Navbar = () => {
         <ul className="menu menu-horizontal gap-2 px-1">{links}</ul>
       </div>
 
-      <div className="navbar-end gap-3">
+      <div className="navbar-end gap-0.5 md:gap-3">
         {/* --- Theme Controller Start --- */}
         <label className="swap swap-rotate text-white mr-1 hover:scale-105 transition cursor-pointer">
           <input 
@@ -231,7 +240,7 @@ const Navbar = () => {
                 <Link to="/dashboard">Dashboard</Link>
               </li>
               <li className="mt-2 pt-2 border-t border-base-200">
-                <button onClick={() => logOut()} className="btn btn-error btn-sm btn-outline btn-block text-xs font-bold">Logout</button>
+                <button onClick={handleLogout} className="btn btn-error btn-sm btn-outline btn-block text-xs font-bold">Logout</button>
               </li>
             </ul>
           </div>

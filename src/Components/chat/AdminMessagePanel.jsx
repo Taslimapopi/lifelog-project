@@ -19,7 +19,7 @@ const AdminMessagePanel = ({ conversation }) => {
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="border-b p-4">
+      <div className="border-b p-4 ">
         <h2 className="text-xl font-semibold">{conversation.name}</h2>
         <p className="text-sm text-gray-500">{conversation.email}</p>
       </div>

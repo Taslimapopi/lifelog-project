@@ -9,6 +9,8 @@ const useMessages = (conversationId) => {
 
     enabled: !!conversationId,
 
+    refetchInterval: 2000,
+
     queryFn: async () => {
       const { data } = await axiosSecure.get(
         `/chat/message/${conversationId}`
