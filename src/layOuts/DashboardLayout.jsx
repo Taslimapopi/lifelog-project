@@ -9,6 +9,7 @@ import {
   MdOutlinePlaylistAdd,
   MdReportProblem,
 } from "react-icons/md";
+import { IoMdChatboxes } from "react-icons/io";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../assets/logo-lifelog.png";
 import { FaProcedures, FaProductHunt } from "react-icons/fa";
@@ -134,7 +135,7 @@ const DashboardLayout = () => {
                     to="/dashboard/admin/manage-users"
                   >
                     {" "}
-                    <MdManageAccounts />
+                    <MdManageAccounts className="text-2xl"/>
                     <span className="is-drawer-close:hidden">Manage Users</span>
                   </NavLink>
                 </li>
@@ -145,7 +146,7 @@ const DashboardLayout = () => {
                     to="/dashboard/admin/manage-lessons"
                   >
                     {" "}
-                    <MdManageSearch />
+                    <MdManageSearch className="text-2xl" />
                     <span className="is-drawer-close:hidden">
                       Manage Lessons
                     </span>
@@ -159,7 +160,7 @@ const DashboardLayout = () => {
                     to="/dashboard/admin/reported-lessons"
                   >
                     {" "}
-                    <MdReportProblem />
+                    <MdReportProblem className="text-2xl" />
                     <span className="is-drawer-close:hidden">
                       Report Lessons
                     </span>
@@ -172,7 +173,7 @@ const DashboardLayout = () => {
                     to="/dashboard/admin/admin-chat"
                   >
                     {" "}
-                    <MdChat />
+                    <IoMdChatboxes className="text-3xl" />
                     <span className="is-drawer-close:hidden">
                       support chat
                     </span>

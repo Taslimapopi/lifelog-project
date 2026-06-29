@@ -1,12 +1,20 @@
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MesssageInput";
 import useMessages from "../../hooks/useMessages";
+import { useEffect, useRef } from "react";
 
 const AdminMessagePanel = ({ conversation }) => {
+  const bottomRef = useRef(null)
   const {
     data: messages = [],
     isPending,
   } = useMessages(conversation._id);
+
+  useEffect(() => {
+  bottomRef.current?.scrollIntoView({
+    behavior: "smooth",
+  });
+}, [messages]);
 
   if (isPending) {
     return (
@@ -17,15 +25,15 @@ const AdminMessagePanel = ({ conversation }) => {
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col">
       {/* Header */}
-      <div className="border-b p-4 ">
+      <div className="flex-none border-b p-4 ">
         <h2 className="text-xl font-semibold">{conversation.name}</h2>
         <p className="text-sm text-gray-500">{conversation.email}</p>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 min-h-0 overflow-y-auto p-4">
         {messages.map((message) => (
           <MessageBubble
             key={message._id}
@@ -33,7 +41,9 @@ const AdminMessagePanel = ({ conversation }) => {
             currentRole="admin"
           />
         ))}
+        <div ref={bottomRef}></div>
       </div>
+      
 
       {/* Reply Box */}
       <MessageInput

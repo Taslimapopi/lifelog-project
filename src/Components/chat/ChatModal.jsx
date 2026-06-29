@@ -19,6 +19,7 @@ const ChatModal = ({ isChatOpen, setIsChatOpen }) => {
         await mutateAsync({
           userId: user.uid,
           name: user.displayName,
+          photo: user.photoURL
         });
       } catch (error) {
         console.error(error);

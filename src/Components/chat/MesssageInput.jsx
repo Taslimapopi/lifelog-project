@@ -9,17 +9,12 @@ const MessageInput = ({ conversationId, senderRole }) => {
 
   const handleSend = async () => {
     if (!text.trim()) return;
-    console.log({
-      conversationId,
-      senderId: user?._id,
-      senderRole,
-      text,
-    });
 
     try {
       await mutateAsync({
         conversationId,
         senderId: user.uid,
+        senderPhoto: user.photoURL,
         senderRole,
         text,
       });

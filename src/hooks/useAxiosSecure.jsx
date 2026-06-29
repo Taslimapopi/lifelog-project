@@ -5,8 +5,8 @@ import useAuth from './useAuth';
 import { useNavigate } from 'react-router';
 
 const axiosSecure = axios.create({
-    // baseURL: 'https://lifelog-server.vercel.app || http://localhost:3001'
-    baseURL: 'http://localhost:3001'
+    baseURL: 'https://lifelog-server.vercel.app'
+    // baseURL: 'http://localhost:3001'
     
 })
 

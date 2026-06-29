@@ -27,7 +27,8 @@ import AdminProfile from "../pages/AdminDashboard/AdminProfile";
 import DashboardHome from "../pages/DashboardHome/DashboardHome";
 import AdminRoute from "./AdminRoute";
 import UpdateProfile from "../pages/Dashboard/UpdateProfile";
-import AdminChat from "../pages/AdminDashboard/AdminChat";
+import AdminChat from "../Components/chat/AdminChat";
+// import AdminChat from "../pages/AdminDashboard/AdminChat";
 
 export const router = createBrowserRouter([
   {
