@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
-import logo from "../assets/logo-lifelog.png";
+import logo from "../assets/logo.png";
 import useAxios from "../hooks/useAxious";
 
 const Navbar = () => {
@@ -193,7 +193,7 @@ const handleLogout = () => {
         </div>
         
         <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition">
-          <img className="hidden sm:block w-9 h-9 rounded-full border border-white/20 shadow-md" src={logo} alt="LifeLog Logo" />
+          <img className="hidden sm:block w-11 h-9 rounded-full border border-white/20 shadow-md" src={logo} alt="LifeLog Logo" />
           <span className="font-black text-2xl tracking-tight text-white">LifeLog</span>
         </Link>
       </div>

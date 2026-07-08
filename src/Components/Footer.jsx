@@ -1,6 +1,6 @@
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub } from "react-icons/fa";
 import { Link } from "react-router";
-import logo from "../assets/logo-lifelog.png";
+import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
@@ -10,7 +10,7 @@ const Footer = () => {
         <div>
           <Link to="/">
             <div className="flex">
-              <img className="w-8 h-8 rounded-full" src={logo} alt="" />
+              <img className="w-10 h-8 rounded-full" src={logo} alt="" />
               <p className="text-xl  text-white ml-1">LifeLog</p>
             </div>
           </Link>
