@@ -11,7 +11,7 @@ const ConversationCard = ({
       ${
         active
           ? "bg-primary/10"
-          : "hover:bg-gray-50"
+          : "hover:bg-secondary"
       }
       `}
     >
@@ -27,7 +27,7 @@ const ConversationCard = ({
   ) : (
     <div className="placeholder">
       <div className="w-10 h-10 rounded-full bg-primary text-white flex justify-center items-center">
-        <span className="font-semibold">
+        <span className="font-semibold ">
           {conversation.name?.[0]?.toUpperCase()}
         </span>
       </div>
@@ -40,7 +40,7 @@ const ConversationCard = ({
             {conversation.name}
           </h3>
 
-          <p className="truncate text-sm text-gray-500">
+          <p className="truncate text-sm text-base-content">
             {conversation.email}
           </p>
         </div>

@@ -34,7 +34,7 @@ const Pricing = () => {
       <div className="overflow-x-auto shadow-lg rounded-lg">
         <table className="table-auto w-full text-left">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="bg-gray-800">
               <th className="p-4">Features</th>
               <th className="p-4">Free Plan</th>
               <th className="p-4">Premium Plan</th>

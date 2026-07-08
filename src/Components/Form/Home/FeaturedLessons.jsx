@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../hooks/useAxious";
 import { Link } from "react-router";
-
+import { ArrowRight } from "lucide-react";
+import useAxios from "../../../hooks/useAxious";
 
 const FeaturedLessons = () => {
   const axios = useAxios();
@@ -14,67 +14,154 @@ const FeaturedLessons = () => {
     },
   });
 
-  // console.log(lessons);
+  if (isLoading) {
+    return (
+      <section className="relative overflow-hidden bg-base-200 py-24">
+        <div className="absolute inset-0">
+          <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-primary/15 blur-[120px] animate-float-slow"></div>
+          <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-secondary/15 blur-[140px] animate-float-medium"></div>
+        </div>
 
-  if (isLoading) return <p className="text-center py-20 text-xl">Loading...</p>;
+        <div className="relative z-10 flex justify-center">
+          <span className="loading loading-spinner loading-lg text-primary"></span>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-12">
-          Featured Life Lessons
-        </h2>
+    <section className="relative overflow-hidden bg-base-200/40 py-24">
 
-        {/* Updated Grid for better card layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {lessons.map((lesson) => (
-            <div
-              key={lesson._id}
-              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 flex flex-col md:flex-row border border-gray-100" // Added responsiveness and hover effect
-            >
-              {/* Image Section - Set to fixed width on larger screens */}
-              <div className="md:w-1/3 flex-shrink-0">
-                <img
-                  src={lesson.image}
-                  alt={lesson.title}
-                  // Enforce aspect ratio and cover the container
-                  className="h-full w-full object-cover rounded-t-xl md:rounded-t-none md:rounded-l-xl"
-                />
-              </div>
+      {/* Animated Mesh */}
+      <div className="absolute inset-0">
 
-              {/* Content Section - Takes the remaining space */}
-              <div className="p-6 md:w-2/3 flex flex-col justify-start">
-                {/* Title */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {lesson.title}
-                </h3>
+        <div className="absolute -left-40 top-0 h-96 w-96 rounded-full bg-primary/15 blur-[130px] animate-float-slow"></div>
 
-                {/* Category */}
-                <p className="text-sm font-medium text-indigo-600 mb-3 uppercase tracking-wider">
-                  Category: {lesson.category}
-                </p>
+        <div className="absolute right-0 top-1/3 h-[420px] w-[420px] rounded-full bg-secondary/15 blur-[150px] animate-float-medium"></div>
 
-                {/* Full Description */}
-                <p className="text-base text-gray-700 leading-relaxed">
-                  {lesson.description.slice(0,150)}...
-                </p>
+        <div className="absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-accent/15 blur-[130px] animate-float-fast"></div>
 
-                <Link
-                  to={`/lessons/${lesson._id}`}
-                  className="btn bg-primary mt-6 self-start px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition duration-150"
-                >
-                  View Details
-                </Link>
-
-                {/* Optional: Add a Read More button or other action */}
-                {/* <button className="mt-4 self-start px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded-lg hover:bg-indigo-600 transition duration-150">
-                    Read Lesson
-                </button> */}
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+
+        {/* Header */}
+
+        <div className="mb-14 text-center">
+
+          <span className="badge badge-primary badge-outline px-5 py-3">
+            Featured Collection
+          </span>
+
+          <h2 className="mt-5 text-4xl font-bold text-base-content md:text-5xl">
+            Featured Life Lessons
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-base-content/70">
+            Explore hand-picked stories and meaningful experiences shared by our
+            community to inspire your personal growth.
+          </p>
+
+        </div>
+
+        {/* Cards */}
+
+        <div className="grid gap-8 lg:grid-cols-2">
+
+          {lessons.map((lesson) => (
+
+            <article
+              key={lesson._id}
+              className="
+              group
+              overflow-hidden
+              rounded-3xl
+              border
+              border-primary/10
+              bg-base-100/80
+              backdrop-blur-xl
+              shadow-xl
+              transition-all
+              duration-500
+              hover:-translate-y-2
+              hover:border-primary/30
+              hover:shadow-primary/20
+            "
+            >
+              <div className="flex flex-col md:flex-row">
+
+                {/* Image */}
+
+                <div className="relative h-52 md:w-60 overflow-hidden">
+
+                  <img
+                    src={lesson.image}
+                    alt={lesson.title}
+                    className="
+                    h-full
+                    w-full
+                    object-cover
+                    transition-transform
+                    duration-700
+                    group-hover:scale-110
+                  "
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+
+                </div>
+
+                {/* Content */}
+
+                <div className="flex flex-1 flex-col p-6">
+
+                  <div className="badge badge-primary badge-outline w-fit">
+                    {lesson.category}
+                  </div>
+
+                  <h3 className="mt-3 text-xl font-bold text-base-content">
+                    {lesson.title}
+                  </h3>
+
+                  <p className="mt-3 flex-1 text-sm leading-7 text-base-content/70 line-clamp-3">
+                    {lesson.description.slice(0, 120)}...
+                  </p>
+
+                  <Link
+                    to={`/lessons/${lesson._id}`}
+                    className="
+                    btn
+                    btn-primary
+                    btn-sm
+                    mt-5
+                    w-fit
+                    gap-2
+                  "
+                  >
+                    Read Lesson
+
+                    <ArrowRight
+                      size={16}
+                      className="
+                      transition-transform
+                      duration-300
+                      group-hover:translate-x-1
+                    "
+                    />
+
+                  </Link>
+
+                </div>
+
+              </div>
+            </article>
+
+          ))}
+
+        </div>
+
+      </div>
+
     </section>
   );
 };

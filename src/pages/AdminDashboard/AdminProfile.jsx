@@ -16,7 +16,7 @@ const AdminProfile = () => {
   if (!admin) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded-xl text-center">
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded-xl text-center text-base-content ">
       <img
         src={admin.photo}
         alt="Admin"

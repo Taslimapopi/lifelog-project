@@ -209,15 +209,15 @@ const slides = [
   },
 
   // ── নতুন ৫টা ──
-  {
-    image: "/slide4.jpg",
-    tag: "📖 Daily Journaling",
-    title: "Small Notes. Big Transformations.",
-    description:
-      "A single sentence written today can become the lesson that changes your tomorrow. Start your journaling habit now.",
-    cta: "Start Journaling",
-    link: "/add-lessons",
-  },
+  // {
+  //   image: "/slide4.jpg",
+  //   tag: "📖 Daily Journaling",
+  //   title: "Small Notes. Big Transformations.",
+  //   description:
+  //     "A single sentence written today can become the lesson that changes your tomorrow. Start your journaling habit now.",
+  //   cta: "Start Journaling",
+  //   link: "/add-lessons",
+  // },
   {
     image: "/slide5.jpg",
     tag: "🤝 Community Wisdom",
@@ -258,7 +258,7 @@ const slides = [
 
 const SLIDE_DURATION = 6000;
 
-// Staggered container — children একে একে animate হবে
+// Staggered container — children animation
 const containerVariants = {
   hidden: {},
   visible: {
@@ -266,7 +266,7 @@ const containerVariants = {
   },
 };
 
-// প্রতিটা text item এর animation
+// animation for text item
 const itemVariants = {
   hidden: { opacity: 0, y: 32 },
   visible: {
@@ -292,7 +292,7 @@ const HeroSlider = () => {
   const startTimeRef = useRef(Date.now());
   const containerRef = useRef(null);
 
-  // Timer + progress bar reset ও start
+  // Timer + progress bar reset and start
   const startTimer = () => {
     clearTimeout(timerRef.current);
     clearInterval(progressIntervalRef.current);
@@ -332,7 +332,7 @@ const HeroSlider = () => {
     setIndex(i);
   };
 
-  // Mouse parallax — background image টা mouse follow করবে subtly
+  // Mouse parallax — background image 
   const handleMouseMove = (e) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
@@ -366,7 +366,7 @@ const HeroSlider = () => {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="w-full h-[90vh] relative overflow-hidden rounded-b-3xl shadow-2xl group border border-base-200 -mt-18"
+      className="w-full h-[90vh] relative overflow-hidden  shadow-2xl group border border-base-200 -mt-18"
     >
       {/* ── Background: Crossfade + Parallax ── */}
       <AnimatePresence custom={direction} initial={false}>

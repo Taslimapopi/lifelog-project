@@ -59,12 +59,12 @@ const HomepageStats = () => {
 
   return (
     <div>
-      <div className="mb-3 ">
+      <div className="mb-3 mt-3 ">
         <div className=" flex flex-col justify-center items-center">
-          <h2 className="text-4xl font-extrabold text-center text-gray-800 mt-4 ">
+          <h2 className="text-4xl font-extrabold text-center text-gray-5 00 mt-4 ">
             Platform Overview
           </h2>
-          <p className="text-sm text-secondary">Live stats across all lessons</p>
+          <p className=" text-secondary mb-3">Live stats across all lessons</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 border border-gray-100 rounded-xl overflow-hidden animated-bg">

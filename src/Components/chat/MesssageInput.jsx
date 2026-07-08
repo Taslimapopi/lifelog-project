@@ -13,7 +13,7 @@ const MessageInput = ({ conversationId, senderRole }) => {
     try {
       await mutateAsync({
         conversationId,
-        senderId: user.uid,
+        senderId: user.uid || user._id,
         senderPhoto: user.photoURL,
         senderRole,
         text,
@@ -32,7 +32,7 @@ const MessageInput = ({ conversationId, senderRole }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Type your message..."
-        className="input input-bordered flex-1"
+        className="input input-bordered flex-1 bg-gray-100 text-gray-800"
       />
 
       <button

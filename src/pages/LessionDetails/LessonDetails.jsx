@@ -60,7 +60,7 @@ const LessonDetails = () => {
   } = useQuery({
     queryKey: ["lesson", id],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosInstance.get(
         `${import.meta.env.VITE_API_URL}/lessons/${id}`,
       );
       return res.data;
@@ -80,6 +80,8 @@ const LessonDetails = () => {
     likes = [],
     favorites = [],
   } = lesson;
+
+  console.log(lesson)
 
   useEffect(() => {
     if (!user || loading) return;

@@ -81,7 +81,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-700 py-4 text-center text-sm">
+      <div className="border-t-2 border-primary py-4 text-center text-sm">
         © {new Date().getFullYear()} LifeLog. All rights reserved.
       </div>
     </footer>

@@ -3,11 +3,11 @@ const ChatHeader = ({ setIsChatOpen }) => {
     <div className="flex  items-center justify-between border-b p-4">
 
       <div>
-        <h2 className="font-semibold text-lg">
+        <h2 className="font-semibold text-lg text-gray-800">
           Chat with Admin
         </h2>
 
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-800">
           Usually replies within a few minutes
         </p>
       </div>

@@ -54,7 +54,7 @@ const AdminDashboard = () => {
     <div className="p-6 space-y-8">
       {/* Header */}
       <h2 className="text-3xl font-bold">Admin Dashboard</h2>
-      <p className="text-gray-500">Platform overview & activity summary</p>
+      <p className="text-primary">Platform overview & activity summary</p>
       
 
       {/* Stats Cards */}
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
 
       {/* Top Contributors */}
       <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-xl font-semibold mb-4">Most Active Contributors</h3>
+        <h3 className="text-xl font-semibold mb-4 text-primary">Most Active Contributors</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {topUsers.map((user) => (
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
                 src={user.photoURL}
                 className="w-20 h-20 rounded-full object-cover"
               />
-              <h4 className="font-semibold mt-3">{user.displayName}</h4>
+              <h4 className="font-semibold text-gray-500 mt-3">{user.displayName}</h4>
               <p className="text-sm text-gray-500">{user.email}</p>
             </div>
           ))}
@@ -112,7 +112,7 @@ const AdminDashboard = () => {
 
       {/* Today Lessons */}
       <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-xl font-semibold mb-4">Today’s New Lessons</h3>
+        <h3 className="text-xl font-semibold mb-4 text-primary ">Today’s New Lessons</h3>
 
         <ul className="space-y-3">
           {todayLessons.map((lesson) => (
@@ -121,7 +121,7 @@ const AdminDashboard = () => {
               className="flex justify-between items-center border-b pb-2"
             >
               <div>
-                <p className="font-medium">{lesson.title}</p>
+                <p className="font-medium text-gray-500">{lesson.title}</p>
                 <p className="text-sm text-gray-500">{lesson.category}</p>
               </div>
               <span className="text-sm text-gray-400">
@@ -141,7 +141,7 @@ const StatCard = ({ icon, title, value }) => {
       <div className="text-3xl text-primary">{icon}</div>
       <div>
         <p className="text-gray-500">{title}</p>
-        <h3 className="text-2xl font-bold">{value}</h3>
+        <h3 className="text-2xl font-bold text-gray-800">{value}</h3>
       </div>
       
     </div>

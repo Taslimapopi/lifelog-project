@@ -66,19 +66,19 @@ const ManageLessons = () => {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto ">
       <h1 className="text-3xl font-bold mb-6">Manage Lessons</h1>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
-        <div className="p-4 bg-white shadow rounded">Total: {stats.total}</div>
-        <div className="p-4 bg-white shadow rounded">
+      <div className="grid grid-cols-4 gap-4 mb-6 bg-base-200 border-2 border-primary">
+        <div className="p-4 shadow rounded text-center">Total: {stats.total}</div>
+        <div className="p-4 shadow rounded">
           Public: {stats.publicLessons}
         </div>
-        <div className="p-4 bg-white shadow rounded">
+        <div className="p-4 shadow rounded">
           Premium: {stats.premiumLessons}
         </div>
-        <div className="p-4 bg-white shadow rounded">
+        <div className="p-4  shadow rounded">
           Flagged: {stats.flagged}
         </div>
       </div>
@@ -119,7 +119,7 @@ const ManageLessons = () => {
       {/* Lessons Table */}
       <div className="overflow-x-auto">
         <table className="w-full border shadow">
-          <thead className="bg-gray-100">
+          <thead className="bg-base-200">
             <tr>
               <th className="p-3 border">Title</th>
               <th className="p-3 border">Author</th>

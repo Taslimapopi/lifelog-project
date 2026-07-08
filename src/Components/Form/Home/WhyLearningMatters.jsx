@@ -1,7 +1,22 @@
 import { motion } from "framer-motion";
-import { BookOpen, Brain, HeartHandshake, TrendingUp, Lightbulb, Shield, Sparkles } from "lucide-react";
+import {
+  BookOpen,
+  Brain,
+  HeartHandshake,
+  TrendingUp,
+  Lightbulb,
+  Shield,
+  Sparkles,
+} from "lucide-react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
+
+import {
+  EffectCoverflow,
+  Pagination,
+  Autoplay,
+} from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
@@ -13,17 +28,13 @@ const benefits = [
     description:
       "Life lessons come from real experiences, making them more practical and impactful than theory alone.",
     icon: BookOpen,
-    color: "bg-lime-100",
-    iconColor: "text-lime-600",
   },
   {
     id: 2,
     title: "Better Decision Making",
     description:
-      "Learning from past mistakes helps you make smarter and more confident decisions in the future.",
+      "Learning from past mistakes helps you make smarter and more confident decisions.",
     icon: Brain,
-    color: "bg-blue-100",
-    iconColor: "text-blue-600",
   },
   {
     id: 3,
@@ -31,145 +42,219 @@ const benefits = [
     description:
       "Reflecting on life experiences builds emotional intelligence and inner strength.",
     icon: HeartHandshake,
-    color: "bg-pink-100",
-    iconColor: "text-pink-600",
   },
   {
     id: 4,
-    title: "Continuous Self-Improvement",
+    title: "Continuous Growth",
     description:
-      "Every experience teaches something new, helping you grow consistently over time.",
+      "Every experience teaches something new and helps you improve every day.",
     icon: TrendingUp,
-    color: "bg-purple-100",
-    iconColor: "text-purple-600",
   },
   {
     id: 5,
     title: "Clarity of Thought",
     description:
-      "Writing down your experiences organizes your thoughts and gives you a clearer perspective on life's challenges.",
+      "Writing down your experiences helps organize thoughts and gain clarity.",
     icon: Lightbulb,
-    color: "bg-yellow-100",
-    iconColor: "text-yellow-600",
   },
   {
     id: 6,
     title: "Build Resilience",
     description:
-      "Revisiting tough moments and finding the lessons within them builds the mental strength to face future challenges.",
+      "Finding lessons inside difficult moments develops mental strength.",
     icon: Shield,
-    color: "bg-orange-100",
-    iconColor: "text-orange-600",
   },
   {
     id: 7,
     title: "Inspired Living",
     description:
-      "Reading others' journeys sparks motivation and reminds you that growth is always possible, no matter where you start.",
+      "Reading others' journeys inspires hope, confidence and motivation.",
     icon: Sparkles,
-    color: "bg-secondary-100",
-    iconColor: "text-teal-600",
   },
 ];
 
-
-
-
 const WhyLearningMatters = () => {
   return (
-    <section className="py-20 bg-gray-50 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="relative overflow-hidden bg-base-200 py-24">
 
-        {/* Section Header */}
+      {/* Animated Background */}
+
+      <div className="absolute inset-0">
+
+        <div className="absolute -top-40 -left-32 h-96 w-96 rounded-full bg-primary/20 blur-[130px] animate-pulse"></div>
+
+        <div className="absolute right-0 bottom-0 h-[420px] w-[420px] rounded-full bg-secondary/20 blur-[150px] animate-pulse"></div>
+
+        <div className="absolute left-1/2 top-1/3 h-80 w-80 -translate-x-1/2 rounded-full bg-accent/15 blur-[140px] animate-pulse"></div>
+
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+
         <motion.div
-          className="text-center max-w-3xl mx-auto mb-14"
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: .6 }}
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+          <span className="badge badge-primary badge-outline px-5 py-4">
+            Learn • Grow • Inspire
+          </span>
+
+          <h2 className="mt-5 text-4xl font-bold text-base-content md:text-5xl">
             Why Learning From Life Matters
           </h2>
-          <p className="mt-4 text-gray-600">
-            Life itself is the greatest teacher. Every experience holds a lesson
-            that shapes who we become.
+
+          <p className="mt-5 text-lg leading-8 text-base-content/70">
+            Every experience carries a lesson. Learn from your own journey,
+            discover the wisdom of others, and become a better version of
+            yourself.
           </p>
         </motion.div>
 
-        {/* Swiper Coverflow */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <style>{`
 
-         <style>{`
-  .swiper-slide {
-    transform: scale(0.88);
-    transition: transform 0.4s ease;
-  }
-  .swiper-slide-active {
-    transform: scale(1.08) !important;
-  }
-  .swiper-slide-active > div {
-    background-color: var(--color-primary) !important;
-    color: black !important;
-  }
-  .swiper-slide-active > div h3,
-  .swiper-slide-active > div p {
-    color: white !important;
-  }
+.swiper-slide{
+
+transform:scale(.88);
+
+opacity:.65;
+
+transition:.45s;
+
+}
+
+.swiper-slide-active{
+
+transform:scale(1.05)!important;
+
+opacity:1;
+
+}
+
+.swiper-slide-active .card{
+
+background:linear-gradient(135deg,#50E3C2,#0f766e);
+
+color:white;
+
+box-shadow:0 30px 70px rgba(0,0,0,.22);
+
+}
+
+.swiper-slide-active h3{
+
+color:white!important;
+
+}
+
+.swiper-slide-active p{
+
+color:rgba(255,255,255,.88)!important;
+
+}
+
+.swiper-slide-active .icon{
+
+background:rgba(255,255,255,.18);
+
+}
+
+.swiper-slide-active svg{
+
+color:white!important;
+
+}
+
 `}</style>
 
-          <Swiper
-            effect="coverflow"
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView="auto"
-            loop={true}
-            autoplay={{ delay: 2800, disableOnInteraction: false }}
-            coverflowEffect={{
-              rotate: 30,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: true,
-            }}
-            pagination={{ clickable: true }}
-            modules={[EffectCoverflow, Pagination, Autoplay]}
-            className="pb-12"
-            style={{ width: "100%" }}
-          >
-            {benefits.map((item) => {
-              const Icon = item.icon;
-              return (
-                <SwiperSlide
-                  key={item.id}
-                  style={{ width: "280px" }}
-                >
-                  <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-shadow duration-300 h-full flex flex-col gap-4 select-none">
-                    {/* Icon */}
-                    <div
-                      className={`w-14 h-14 flex items-center justify-center rounded-full ${item.color}`}
-                    >
-                      <Icon className={`${item.iconColor} w-7 h-7`} />
-                    </div>
+        <Swiper
+          effect="coverflow"
+          centeredSlides
+          slidesPerView="auto"
+          grabCursor
+          loop
+          autoplay={{
+            delay: 2800,
+            disableOnInteraction: false,
+          }}
+          coverflowEffect={{
+            rotate: 28,
+            stretch: 0,
+            depth: 130,
+            modifier: 1,
+            slideShadows: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[
+            EffectCoverflow,
+            Pagination,
+            Autoplay,
+          ]}
+          className="pb-12"
+        >
+          {benefits.map((item) => {
 
-                    {/* Text */}
-                    <h3 className="text-xl font-semibold text-gray-800">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">
-                      {item.description}
-                    </p>
+            const Icon = item.icon;
+
+            return (
+
+              <SwiperSlide
+                key={item.id}
+                style={{
+                  width: "300px",
+                }}
+              >
+                <div
+                  className="
+                  card
+                  rounded-3xl
+                  border
+                  border-base-300
+                  bg-base-100/85
+                  backdrop-blur-xl
+                  p-8
+                  shadow-xl
+                  transition-all
+                  duration-500
+                  h-full
+                "
+                >
+
+                  <div
+                    className="
+                    icon
+                    flex
+                    h-16
+                    w-16
+                    items-center
+                    justify-center
+                    rounded-2xl
+                    bg-primary/10
+                    transition
+                  "
+                  >
+                    <Icon className="h-8 w-8 text-primary" />
                   </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </motion.div>
+
+                  <h3 className="mt-6 text-2xl font-bold text-base-content">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-4 leading-7 text-base-content/70">
+                    {item.description}
+                  </p>
+
+                </div>
+              </SwiperSlide>
+
+            );
+
+          })}
+        </Swiper>
 
       </div>
     </section>

@@ -6,8 +6,8 @@ const AdminSidebar = ({
   setSelectedConversation,
 }) => {
   return (
-    <div className="col-span-4 border-r bg-white">
-      <div className="p-4">
+    <div className="col-span-4 border-r bg-base-200">
+      <div className="p-4 bg-base-100">
         <input
           type="text"
           placeholder="Search user..."

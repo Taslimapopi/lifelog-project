@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router";
 import { FaHeart, FaComment, FaArrowRight } from "react-icons/fa";
+import useAxios from "../../../hooks/useAxious";
 
 const CATEGORIES = [
   { id: "relationships", label: "Relationships", emoji: "❤️", category: "relationships", color: "from-pink-400 to-rose-600" },
@@ -14,14 +15,13 @@ const CATEGORIES = [
 
 const InteractiveMoodFinder = () => {
   const [selectedCategory, setSelectedCategory] = useState("relationships");
+  const axiosInstance = useAxios()
 
   // Fetch lessons based on the selected category
   const { data = {}, isLoading } = useQuery({
     queryKey: ["categoryLessons", selectedCategory],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/public-lessons?category=${selectedCategory}&limit=3`
-      );
+      const res = await axiosInstance.get(`/public-lessons?category=${selectedCategory}&limit=3`);
       return res.data;
     },
   });

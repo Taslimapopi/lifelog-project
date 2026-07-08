@@ -1,47 +1,65 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100..900&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* ---------------- Light ---------------- */
+
 @plugin "daisyui/theme" {
   name: "light";
-  default: true;
+  default: false;
+  
+
   --color-primary: #50E3C2;
-  --color-secondary: teal;
-} */
+  --color-secondary: #0E403C;
+  --color-accent: #14b8a6;
 
+  --color-base-100: #ffffff;
+  --color-base-200: #f8fafc;
+  --color-base-300: #eef2f7;
 
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-@import "tailwindcss";
-@plugin "daisyui";
+  --color-base-content: #1f2937;
 
-/* Light Theme */
-@plugin "daisyui/theme" {
-  name: "light";
-  default: true;
-  --color-primary: #50E3C2;
-  --color-secondary: teal;
+  --color-neutral: #111827;
+  --color-neutral-content: #f9fafb;
+
+  --color-info: #0ea5e9;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 }
 
-/* Dark Theme */
+/* ---------------- Dark ---------------- */
+
 @plugin "daisyui/theme" {
   name: "dark";
-  --color-primary: #50E3C2; /* Keeping your primary same */
-  --color-secondary: teal;  /* Keeping your secondary same */
-  --color-accent: oklch(70% 0.25 200);
-  /* DaisyUI will automatically adjust base-100 (background) to dark */
-}
+  default: true;
 
-/* ... rest of your CSS */
+  --color-primary: #50E3C2;
+  --color-secondary: #0E403C;
+  --color-accent: #2dd4bf;
 
-.active  {
-    /* background-color: rgb(105, 72, 159); */
-    @apply bg-accent
+  --color-base-100: #0f172a;
+  --color-base-200: #162033;
+  --color-base-300: #1d293d;
+
+  --color-base-content: #f3f4f6;
+
+  --color-neutral: #111827;
+  --color-neutral-content: #ffffff;
+
+  --color-info: #38bdf8;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
 }
 
 body {
   font-family: "Urbanist", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+}
+
+.active{
+  @apply bg-primary text-base-content;
 }
 
 
@@ -62,4 +80,68 @@ body {
   );
   background-size: 400% 400%;
   animation: gradientShift 12s ease infinite;
+}
+
+@keyframes floating {
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-20px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+.animate-floating{
+
+animation:floating 7s ease-in-out infinite;
+
+}
+
+@keyframes floatSlow{
+
+0%{transform:translate(0,0);}
+50%{transform:translate(25px,-25px);}
+100%{transform:translate(0,0);}
+
+}
+
+@keyframes floatMedium{
+
+0%{transform:translate(0,0);}
+50%{transform:translate(-20px,20px);}
+100%{transform:translate(0,0);}
+
+}
+
+@keyframes floatFast{
+
+0%{transform:translate(0,0);}
+50%{transform:translate(18px,-18px);}
+100%{transform:translate(0,0);}
+
+}
+
+.animate-float-slow{
+
+animation:floatSlow 12s ease-in-out infinite;
+
+}
+
+.animate-float-medium{
+
+animation:floatMedium 10s ease-in-out infinite;
+
+}
+
+.animate-float-fast{
+
+animation:floatFast 8s ease-in-out infinite;
+
 }

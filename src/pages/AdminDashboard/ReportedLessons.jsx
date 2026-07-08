@@ -45,7 +45,7 @@ const ReportedLessons = () => {
 
       <div className="overflow-x-auto">
         <table className="w-full border shadow">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-500">
             <tr>
               <th className="p-3 border">Title</th>
               <th className="p-3 border">Reports</th>

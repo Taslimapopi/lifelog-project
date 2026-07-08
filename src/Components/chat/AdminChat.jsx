@@ -19,7 +19,7 @@ const AdminChat = () => {
   return (
     <div className="overflow-hidden rounded-2xl border bg-white shadow-xl">
       <div className="border-b px-6 py-4">
-        <h2 className="text-2xl font-bold">Support Chat</h2>
+        <h2 className="text-2xl font-bold text-gray-600">Support Chat</h2>
         <p className="text-sm text-gray-500">
           Reply to user support requests.
         </p>
@@ -39,7 +39,7 @@ const AdminChat = () => {
             <div className="flex h-full flex-col items-center justify-center text-center">
               <div className="text-6xl">💬</div>
 
-              <h2 className="mt-4 text-xl font-semibold">
+              <h2 className="mt-4 text-xl font-semibold text-gray-400">
                 Select a Conversation
               </h2>
 
