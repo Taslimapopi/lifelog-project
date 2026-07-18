@@ -14,6 +14,7 @@ const ChatHeader = ({ setIsChatOpen }) => {
 
       <button
         onClick={() => setIsChatOpen(false)}
+        className="text-gray-800"
       >
         ✖
       </button>
